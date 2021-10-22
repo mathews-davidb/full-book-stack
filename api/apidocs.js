@@ -2,9 +2,9 @@
 
 /api/users/register
 
-post - [{email: email: password: password}]
+post - {email: email: password: password}
 
-return - [{ id: 1, email: whatever@gmail.com}]
+return - [{ id: 1, email: whatever@gmail.com, token: }]
 
 -------------------------------------
 
@@ -12,7 +12,7 @@ return - [{ id: 1, email: whatever@gmail.com}]
 
 post - [{email: email: password: password}]
 
-return - [{ id: 1, email: whatever@gmail.com}]
+return - [{ id: 1, email: whatever@gmail.com, token: }]
 
 ----------------------------------------
 
@@ -91,30 +91,22 @@ return - [{id: , orderId: , productId: , price: , quantity: }]
 
 ---------------------------------------------------
 
-/api/orders/:userId
-
-get 
-
-return - [{id: , userId:, is_purchase: }]
-
-
----------------------------------------------------
-
 /api/orders/:id
 
-delete - [{id: , userId:, is_purchase: }]
+get 
+
+return - [{id: , userId:, is_purchase: , [products]}]
+
 
 ---------------------------------------------------
 
-/api/order_products/:orderId
+-----
+---------------------------------------------------
 
-get 
-
-return - [{id: , orderId: , productId: , price: , quantity:, }]
 
 ----------------------------------------------------
 
-/api/order_products/:productId
+/api/cart_items/:id
 
 patch - [{ quantity: }]
 
@@ -122,7 +114,7 @@ return - [{id: , orderId: , productId: , price: , quantity:, }]
 
 ----------------------------------------------------
 
-/api/order_products/:productId
+/api/cart_items/:id
 
 delete
 
