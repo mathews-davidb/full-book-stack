@@ -1,0 +1,100 @@
+const client = require("./client");
+
+//==========================================================
+
+const createOrder = async (userId) => {
+  const resp = await client.query(
+    `
+        INSERT INTO orders (user_id)
+        VALUES ($1)
+        RETURNING *;
+        `,
+    [userId]
+  );
+  const order = resp.rows[0];
+  return order;
+};
+
+createOrder(1).then(console.log);
+
+//==========================================================
+
+const updateOrder = async (id) => {
+  const resp = await client.query(
+    `
+          UPDATE orders 
+          SET is_purchase = false
+          WHERE id = $1
+          RETURNING *;
+          `,
+    [id]
+  );
+  const order = resp.rows[0];
+  return order;
+};
+
+// updateOrder(1);
+
+//==========================================================
+
+const getPurchaseOrders = async (user_id) => {
+  try {
+    const resp = await client.query(
+      `
+                        SELECT * FROM orders
+                        WHERE is_purchase = true AND user_id = $1;
+        
+                      `,
+      [user_id]
+    );
+
+    const orders = resp.rows;
+    for (let order of orders) {
+      const resp = await client.query(
+        `
+                        SELECT name FROM products LEFT JOIN cart_items ON "order_id" = $1
+        
+                      `,
+        [order.id]
+      );
+      const products = resp.rows;
+      orders.products = products;
+    }
+    return orders;
+  } catch (error) {
+    throw error;
+  }
+};
+
+//==========================================================
+
+const getCart = async (user_id) => {
+  try {
+    const resp = await client.query(
+      `
+                        SELECT * FROM orders
+                        WHERE is_purchase = false AND user_id = $1;
+        
+                      `,
+      [user_id]
+    );
+
+    const cart = resp.rows[0];
+    const data = await client.query(
+      `
+                        SELECT name FROM products LEFT JOIN cart_items ON "order_id" = $1
+        
+                      `,
+      [cart.id]
+    );
+    const products = data.rows;
+    cart.products = products;
+    return cart;
+  } catch (error) {
+    throw error;
+  }
+};
+
+//==========================================================
+
+module.exports = { createOrder, getCart, getPurchaseOrders, updateOrder };
