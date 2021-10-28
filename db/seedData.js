@@ -48,6 +48,7 @@ async function createTables() {
         id SERIAL PRIMARY KEY,
         order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
         product_id INTEGER REFERENCES products(id),
+        product_name VARCHAR(255) REFERENCES products(name)
         price DECIMAL NOT NULL,
         quantity INTEGER NOT NULL,
         UNIQUE(product_id, order_id)
@@ -77,14 +78,6 @@ async function seedValues() {
 
 createUser({ email: "email@email.com", name: "name", password: "password" });
 createUser({ email: "email2@email.com", name: "name2", password: "password" });
-createProduct({
-  name: "name3",
-  description: "this is a book",
-  price: 10.99,
-  stock: 100,
-  category: "non-fiction",
-}).then(console.log);
-createOrder(1);
 
 dropTables();
 createTables();

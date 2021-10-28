@@ -19,13 +19,13 @@ const createProduct = async ({ name, description, price, stock, category }) => {
   }
 };
 
-createProduct({
-  name: "name2",
-  description: "this is a book",
-  price: 10.99,
-  stock: 100,
-  category: "non-fiction",
-}).then(console.log);
+// createProduct({
+//   name: "name2",
+//   description: "this is a book",
+//   price: 10.99,
+//   stock: 100,
+//   category: "non-fiction",
+// }).then(console.log);
 
 //==========================================================
 
@@ -115,6 +115,7 @@ async function updateProduct({
     );
 
     const product = resp.rows[0];
+    console.log(product);
     return product;
   } catch (error) {
     throw error;
@@ -162,6 +163,7 @@ async function getProductById(id) {
       [id]
     );
     const product = resp.rows[0];
+
     return product;
   } catch (error) {
     throw error;
@@ -172,10 +174,52 @@ async function getProductById(id) {
 
 //==========================================================
 
+async function getProductByName(name) {
+  try {
+    const resp = await client.query(
+      `
+                SELECT *
+                FROM products
+                WHERE name=$1
+              `,
+      [name]
+    );
+    const product = resp.rows[0];
+    console.log(product);
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
+//==========================================================
+
+async function getProductByCategory(category) {
+  try {
+    const resp = await client.query(
+      `
+                SELECT *
+                FROM products
+                WHERE category=$1
+              `,
+      [category]
+    );
+    const product = resp.rows;
+    console.log(product);
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
+//==========================================================
+
 module.exports = {
   createProduct,
   getAllProducts,
   updateProduct,
   getProductById,
   deleteProduct,
+  getProductByName,
+  getProductByCategory,
 };
