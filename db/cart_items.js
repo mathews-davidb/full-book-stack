@@ -1,9 +1,10 @@
 const client = require("./client");
-const { getProductById } = require("./products");
+const { getProductById, deleteProduct } = require("./products");
 
 //==========================================================
 
-const addProductToOrder = async ({ order_id, product_id, quantity }) => {
+const addCartItem = async ({ order_id, product_id, quantity }) => {
+  console.log(product_id);
   const product = await getProductById(product_id);
   const price = product.price;
   console.log(price);
@@ -23,6 +24,62 @@ const addProductToOrder = async ({ order_id, product_id, quantity }) => {
   }
 };
 
-addProductToOrder({ order_id: 1, product_id: 1, quantity: 1 }).then(
-  console.log
-);
+// addProductToOrder({ order_id: 1, product_id: 1, quantity: 1 }).then(
+//   console.log
+// );
+
+//==========================================================
+
+const deleteCartItem = async (id) => {
+  try {
+    await client.query(
+      `
+          DELETE FROM cart_items
+          WHERE id = $1
+          `,
+      [id]
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
+// deleteProductFromOrder(2);
+
+//==========================================================
+
+async function updateCartItem({ id, quantity }) {
+  try {
+    if (quantity) {
+      await client.query(
+        `
+                        UPDATE cart_items
+                        SET quantity=$2
+                        where id=$1
+                        `,
+        [id, quantity]
+      );
+    }
+    const resp = await client.query(
+      `
+          SELECT * FROM cart_items
+          WHERE id=$1
+      `,
+      [id]
+    );
+
+    const product = resp.rows[0];
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// updateCartItem({
+//   id: 5,
+//   quantity: 3,
+// }).then(console.log);
+
+//==========================================================
+
+module.exports = { addCartItem, deleteCartItem, updateCartItem };

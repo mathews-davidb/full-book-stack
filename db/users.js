@@ -83,7 +83,6 @@ const getUserByEmail = async (email) => {
       [email]
     );
     const user = resp.rows[0];
-    delete user.password;
     return user;
   } catch (error) {
     throw error;

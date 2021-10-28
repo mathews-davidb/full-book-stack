@@ -15,7 +15,7 @@ const createOrder = async (userId) => {
   return order;
 };
 
-createOrder(1).then(console.log);
+// createOrder(1).then(console.log);
 
 //==========================================================
 
@@ -23,7 +23,7 @@ const updateOrder = async (id) => {
   const resp = await client.query(
     `
           UPDATE orders 
-          SET is_purchase = false
+          SET is_purchase = true
           WHERE id = $1
           RETURNING *;
           `,
@@ -49,16 +49,20 @@ const getPurchaseOrders = async (user_id) => {
     );
 
     const orders = resp.rows;
+    if (!orders) {
+      return;
+    }
     for (let order of orders) {
       const resp = await client.query(
         `
-                        SELECT name FROM products LEFT JOIN cart_items ON "order_id" = $1
+        SELECT * FROM cart_items 
+        WHERE "order_id" = $1
         
                       `,
         [order.id]
       );
       const products = resp.rows;
-      orders.products = products;
+      order.products = products;
     }
     return orders;
   } catch (error) {
@@ -80,9 +84,13 @@ const getCart = async (user_id) => {
     );
 
     const cart = resp.rows[0];
+    if (!cart) {
+      return;
+    }
     const data = await client.query(
       `
-                        SELECT name FROM products LEFT JOIN cart_items ON "order_id" = $1
+                        SELECT * FROM cart_items 
+                        WHERE "order_id" = $1
         
                       `,
       [cart.id]
