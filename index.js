@@ -3,8 +3,8 @@ const dotenv = require("dotenv").config();
 const express = require("express");
 const server = express();
 
-const client = require("./db/client");
-client.connect();
+// const client = require("./db/client");
+// client.connect();
 
 const cors = require("cors");
 server.use(cors());

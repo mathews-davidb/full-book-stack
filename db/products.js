@@ -20,11 +20,11 @@ const createProduct = async ({ name, description, price, stock, category }) => {
 };
 
 // createProduct({
-//   name: "name2",
-//   description: "this is a book",
-//   price: 10.99,
-//   stock: 100,
-//   category: "non-fiction",
+//   name: "the great gatsby",
+//   description: "this is a great book",
+//   price: 17.99,
+//   stock: 19,
+//   category: "fiction",
 // }).then(console.log);
 
 //==========================================================
@@ -123,7 +123,7 @@ async function updateProduct({
 }
 
 // updateProduct({
-//   id: 21,
+//   id: 2,
 //   name: "name2",
 //   description: "this is a new book",
 //   price: 9.99,
@@ -185,7 +185,7 @@ async function getProductByName(name) {
       [name]
     );
     const product = resp.rows[0];
-    console.log(product);
+    // console.log(product);
     return product;
   } catch (error) {
     throw error;
@@ -205,7 +205,7 @@ async function getProductByCategory(category) {
       [category]
     );
     const product = resp.rows;
-    console.log(product);
+    // console.log(product);
     return product;
   } catch (error) {
     throw error;

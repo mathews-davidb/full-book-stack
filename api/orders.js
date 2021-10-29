@@ -17,7 +17,7 @@ ordersRouter.get("/me", async (req, res, next) => {
   // }
   try {
     // const userId = req.user.userId; change below back to userId
-    const resp = await getPurchaseOrders(2);
+    const resp = await getPurchaseOrders(1);
     res.send(resp);
   } catch (error) {
     console.log(error);
@@ -32,7 +32,7 @@ ordersRouter.post("/", async (req, res, next) => {
   // }
   try {
     // const userId = req.user.id; change below back to id
-    const newOrder = await createOrder(4);
+    const newOrder = await createOrder(1);
     res.send(newOrder);
   } catch (error) {
     console.error(error);
@@ -53,7 +53,7 @@ ordersRouter.patch("/:id", async (req, res, next) => {
 
     for (let product of products) {
       const quantity = product.quantity;
-      console.log(quantity, product.product_id);
+      //   console.log(quantity, product.product_id);
       const productInfo = await getProductById(product.product_id);
       let stock = productInfo.stock;
       stock = productInfo.stock - quantity;
@@ -75,7 +75,7 @@ ordersRouter.get("/cart", async (req, res, next) => {
   // }
   try {
     // const userId = req.user.id; change below back to userId
-    const resp = await getCart(2);
+    const resp = await getCart(1);
     res.send(resp);
   } catch (error) {
     console.log(error);
