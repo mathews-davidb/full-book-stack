@@ -48,7 +48,7 @@ async function createTables() {
         id SERIAL PRIMARY KEY,
         order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
         product_id INTEGER REFERENCES products(id),
-        product_name VARCHAR(255) REFERENCES products(name)
+        product_name VARCHAR(255) REFERENCES products(name),
         price DECIMAL NOT NULL,
         quantity INTEGER NOT NULL,
         UNIQUE(product_id, order_id)

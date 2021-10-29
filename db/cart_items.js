@@ -4,18 +4,19 @@ const { getProductById, deleteProduct } = require("./products");
 //==========================================================
 
 const addCartItem = async ({ order_id, product_id, quantity }) => {
-  console.log(product_id);
+  // console.log(product_id);
   const product = await getProductById(product_id);
   const price = product.price;
-  console.log(price);
+  const name = product.name;
+  // console.log(price);
   try {
     const resp = await client.query(
       `
-        INSERT INTO cart_items (order_id, product_id, price, quantity)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO cart_items (order_id, product_id, price, quantity, product_name)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *
         `,
-      [order_id, product_id, price, quantity]
+      [order_id, product_id, price, quantity, name]
     );
     const cart_item = resp.rows[0];
     return cart_item;
