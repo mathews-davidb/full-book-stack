@@ -12,12 +12,12 @@ const ordersRouter = require("express").Router();
 //==========================================================
 
 ordersRouter.get("/me", async (req, res, next) => {
-  // if (!req.user) {
-  //   next();
-  // }
+  if (!req.user) {
+    next();
+  }
   try {
-    // const userId = req.user.userId; change below back to userId
-    const resp = await getPurchaseOrders(1);
+    const userId = req.user.userId;
+    const resp = await getPurchaseOrders(userId);
     res.send(resp);
   } catch (error) {
     console.log(error);
