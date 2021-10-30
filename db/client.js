@@ -6,7 +6,7 @@ const client = new Client(
     user: "postgres",
     password: process.env.POSTGRES_PASSWORD,
     database: "grace-shopper",
-    port: 5432,
+    port: process.env.POSTGRES_PORT,
   }
 );
 
