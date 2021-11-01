@@ -45,27 +45,21 @@ usersRouter.post("/login", async (req, res, next) => {
   }
   try {
     const user = await getUser({ email, password });
-    console.log(user);
-    if (user) {
-      const token = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-        },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "1w",
-        }
-      );
-      res.send({ message: "you're logged in!", token: token });
-    } else {
-      res.status(401);
-      next({
-        error: "Bad Credentials: Email or password is incorrect",
-      });
-    }
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+    res.send({ message: "you're logged in!", token: token });
   } catch (error) {
-    next(error);
+    res
+      .status(401)
+      .send({ error: "Bad Credentials: Email or password is incorrect" });
   }
 });
 

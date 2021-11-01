@@ -16,7 +16,7 @@ ordersRouter.get("/me", async (req, res, next) => {
     next();
   }
   try {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     const resp = await getPurchaseOrders(userId);
     res.send(resp);
   } catch (error) {
@@ -27,12 +27,12 @@ ordersRouter.get("/me", async (req, res, next) => {
 //==========================================================
 
 ordersRouter.post("/", async (req, res, next) => {
-  // if (!req.user) {
-  //   next();
-  // }
+  if (!req.user) {
+    next();
+  }
   try {
-    // const userId = req.user.id; change below back to id
-    const newOrder = await createOrder(1);
+    const userId = req.user.id;
+    const newOrder = await createOrder(userId);
     res.send(newOrder);
   } catch (error) {
     console.error(error);
@@ -42,12 +42,12 @@ ordersRouter.post("/", async (req, res, next) => {
 //==========================================================
 
 ordersRouter.patch("/:id", async (req, res, next) => {
-  // if (!req.user) {
-  //   next();
-  // }
+  if (!req.user) {
+    next();
+  }
   try {
     const id = req.params.id;
-    const user_id = req.body.user_id;
+    const user_id = req.user.id;
     const cart = await getCart(user_id);
     const products = cart.products;
 
@@ -70,12 +70,12 @@ ordersRouter.patch("/:id", async (req, res, next) => {
 //==========================================================
 
 ordersRouter.get("/cart", async (req, res, next) => {
-  // if (!req.user) {
-  //   next();
-  // }
+  if (!req.user) {
+    next();
+  }
   try {
-    // const userId = req.user.id; change below back to userId
-    const resp = await getCart(1);
+    const userId = req.user.id;
+    const resp = await getCart(userId);
     res.send(resp);
   } catch (error) {
     console.log(error);
@@ -85,9 +85,9 @@ ordersRouter.get("/cart", async (req, res, next) => {
 //==========================================================
 
 ordersRouter.post("/:id/products", async (req, res, next) => {
-  // if (!req.user) {
-  //   next();
-  // }
+  if (!req.user) {
+    next();
+  }
   try {
     const order_id = req.params.id;
     const { product_id, quantity } = req.body;
