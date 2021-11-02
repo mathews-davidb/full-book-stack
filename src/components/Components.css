@@ -1,0 +1,8 @@
+.navbar-top {
+  display: grid;
+  grid-template-columns: 20% 30% 20% 20% 10%;
+}
+
+.navbar-bottom {
+  margin-top: 20px;
+}

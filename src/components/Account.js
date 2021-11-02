@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import "./Components.css";
 
-const Cart = (props) => {
+const Account = (props) => {
   return (
     <>
-      <h1>Cart</h1>
+      <h1>Account</h1>
     </>
   );
 };
 
-export default Cart;
+export default Account;
