@@ -22,8 +22,16 @@ productsRouter.get("/", async (req, res) => {
 //==========================================================
 
 productsRouter.post("/", async (req, res, next) => {
-  const { name, description, price, stock, category } = req.body;
-  if (!name || !description || !price || !stock || !category) {
+  const { name, description, price, stock, category, author, image } = req.body;
+  if (
+    !name ||
+    !description ||
+    !price ||
+    !stock ||
+    !category ||
+    !author ||
+    !image
+  ) {
     return next({ error: "Missing input field" });
   }
   const nameCheck = await getProductByName(name);
@@ -38,6 +46,8 @@ productsRouter.post("/", async (req, res, next) => {
     price,
     stock,
     category,
+    author,
+    image,
   });
   res.send(newProduct);
 });
@@ -46,8 +56,15 @@ productsRouter.post("/", async (req, res, next) => {
 
 productsRouter.patch("/:productId", async (req, res, next) => {
   const id = req.params.productId;
-  const { name, description, price, stock, category } = req.body;
-  if (!name && !description && !price && !stock && !category) {
+  const { name, description, price, stock, category, author, image } = req.body;
+  if (
+    !name &&
+    !description &&
+    !price &&
+    !stock &&
+    !category &&
+    !author & !image
+  ) {
     return next({ error: "At least one input field must be filled out" });
   }
   const nameCheck = await getProductByName(name);
@@ -63,6 +80,8 @@ productsRouter.patch("/:productId", async (req, res, next) => {
     price,
     stock,
     category,
+    author,
+    image,
   });
   res.send(editProduct);
 });

@@ -2,15 +2,23 @@ const client = require("./client");
 
 //==========================================================
 
-const createProduct = async ({ name, description, price, stock, category }) => {
+const createProduct = async ({
+  name,
+  description,
+  price,
+  stock,
+  category,
+  author,
+  image,
+}) => {
   try {
     const resp = await client.query(
       `
-                  INSERT INTO products(name, description, price, stock, category)
-                  VALUES ($1, $2, $3 ,$4, $5)
+                  INSERT INTO products(name, description, price, stock, category, author, image)
+                  VALUES ($1, $2, $3 ,$4, $5, $6, $7)
                   RETURNING *
                   `,
-      [name, description, price, stock, category]
+      [name, description, price, stock, category, author, image]
     );
     const product = resp.rows[0];
     return product;
@@ -54,6 +62,8 @@ async function updateProduct({
   price,
   stock,
   category,
+  author,
+  image,
 }) {
   try {
     if (name) {
@@ -104,6 +114,26 @@ async function updateProduct({
                           where id=$1
                           `,
         [id, category]
+      );
+    }
+    if (author) {
+      await client.query(
+        `
+              UPDATE products
+              SET author=$2
+              where id=$1
+              `,
+        [id, author]
+      );
+    }
+    if (image) {
+      await client.query(
+        `
+              UPDATE products
+              SET image=$2
+              where id=$1
+              `,
+        [id, image]
       );
     }
     const resp = await client.query(
