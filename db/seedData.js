@@ -2,6 +2,10 @@ const client = require("./client");
 const { createOrder } = require("./orders");
 const { createProduct } = require("./products");
 const { createUser, getUser } = require("./users");
+const { createCategory } = require("./categories");
+
+const faker = require("faker");
+const axios = require("axios");
 
 async function dropTables() {
   try {
@@ -27,8 +31,10 @@ async function createTables() {
     CREATE TABLE products (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
-      description VARCHAR(255) NOT NULL,
+      description VARCHAR(255),
+      author VARCHAR(255) NOT NULL,
       price DECIMAL NOT NULL,
+      image VARCHAR(255),
       stock INTEGER NOT NULL,
       category VARCHAR(255) REFERENCES categories(name) ON DELETE CASCADE
     );
@@ -60,25 +66,64 @@ async function createTables() {
 }
 
 async function seedValues() {
-  const categories = [
-    { name: "history" },
-    { name: "fiction" },
-    { name: "non-fiction" },
-  ];
-
-  for (let category of categories) {
-    await client.query(
-      `
-    INSERT INTO categories (name) VALUES ($1)
-  `,
-      [category.name]
-    );
+  for (i = 0; i < 10; i++) {
+    const name = faker.name.findName();
+    const email = (
+      name.split(" ")[0] +
+      "." +
+      name.split(" ")[1] +
+      "@email.com"
+    ).toLowerCase();
+    createUser({ email: email, name: name, password: "password" });
   }
 }
 
-createUser({ email: "email@email.com", name: "name", password: "password" });
-createUser({ email: "email2@email.com", name: "name2", password: "password" });
+const sleep = (time) => {
+  return new Promise((resolve) => setTimeout(resolve, time));
+};
 
+const seedProducts = async () => {
+  try {
+    await axios
+      .get(
+        "https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=bYXKRa8vHpJZn0WEWdSrD1pK74e6AjEp"
+      )
+      .then(async (response) => {
+        const categories = response.data.results;
+        for (let category of categories) {
+          // console.log(category.display_name);
+          await sleep(10000);
+          createCategory(category.display_name);
+          axios
+            .get(
+              `https://api.nytimes.com/svc/books/v3/lists/${category.list_name_encoded}.json?api-key=bYXKRa8vHpJZn0WEWdSrD1pK74e6AjEp`
+            )
+            .then(async (response) => {
+              const books = response.data.results.books;
+              for (let book of books) {
+                const price =
+                  (Math.floor(Math.random() * (2500 - 1500 + 100)) + 1500) /
+                  100;
+                createProduct({
+                  name: book.title,
+                  description: book.description,
+                  price: price,
+                  stock: 100,
+                  category: category.display_name,
+                  author: book.author,
+                  image: book.book_image,
+                });
+                console.log("success");
+              }
+            });
+        }
+      });
+  } catch (error) {
+    throw error;
+  }
+};
+
+seedProducts();
 dropTables();
 createTables();
 seedValues();
