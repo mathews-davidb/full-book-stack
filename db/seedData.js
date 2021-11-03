@@ -113,7 +113,7 @@ const seedProducts = async () => {
                   author: book.author,
                   image: book.book_image,
                 });
-                console.log("success");
+                console.log(book.title);
               }
             });
         }

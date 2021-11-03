@@ -47,6 +47,10 @@ const Navbar = (props) => {
         </span>
       </div>
       <div className="navbar-bottom">
+        <span>
+          {" "}
+          <Link></Link>{" "}
+        </span>
         <span> Category 1 |</span>
         <span> Category 2 |</span>
         <span> Category 3 |</span>
