@@ -3,6 +3,7 @@ import { Route } from "react-router";
 import baseUrl from "./api";
 import "./App.css";
 import Account from "./components/Account";
+import Admin from "./components/Admin";
 import AllProducts from "./components/AllProducts";
 import Cart from "./components/Cart";
 import Home from "./components/Home";
@@ -13,6 +14,7 @@ import Register from "./components/Register";
 function App() {
   const [token, setToken] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
 
   const getUser = async () => {
@@ -31,15 +33,21 @@ function App() {
   };
 
   useEffect(() => {
-    getUser();
-  }, [token]);
-
-  useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
     }
   }, []);
+
+  useEffect(() => {
+    getUser();
+  }, [token]);
+
+  useEffect(() => {
+    if (user) {
+      setIsAdmin(user.is_admin);
+    }
+  }, [user]);
 
   return (
     <div className="App">
@@ -48,6 +56,8 @@ function App() {
         setIsLoggedIn={setIsLoggedIn}
         setUser={setUser}
         setToken={setToken}
+        isAdmin={isAdmin}
+        setIsAdmin={setIsAdmin}
       ></Navbar>
       <Route exact path="/">
         <Home />
@@ -74,6 +84,9 @@ function App() {
       </Route>
       <Route exact path="/products">
         <AllProducts />
+      </Route>
+      <Route exact path="/admin">
+        <Admin token={token} user={user} />
       </Route>
     </div>
   );

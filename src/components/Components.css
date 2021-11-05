@@ -1,6 +1,6 @@
 .navbar-top {
   display: grid;
-  grid-template-columns: 20% 30% 20% 20% 10%;
+  grid-template-columns: 20% 30% 20% 10% 10% 10%;
 }
 
 .navbar-bottom {

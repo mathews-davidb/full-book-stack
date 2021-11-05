@@ -24,6 +24,11 @@ const Navbar = (props) => {
             <Link to="/account">My Account</Link>
           </span>
         )}
+        {props.isAdmin && (
+          <span className="navbar-account">
+            <Link to="/admin">Admin</Link>
+          </span>
+        )}
         {!props.isLoggedIn && (
           <span className="navbar-login">
             <Link to="/login">Login</Link>
@@ -37,6 +42,7 @@ const Navbar = (props) => {
               props.setIsLoggedIn(false);
               props.setUser(null);
               props.setToken("");
+              props.setIsAdmin(false);
             }}
           >
             Logout{" "}
