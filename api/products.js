@@ -63,7 +63,8 @@ productsRouter.patch("/:productId", async (req, res, next) => {
     !price &&
     !stock &&
     !category &&
-    !author & !image
+    !author &&
+    !image
   ) {
     return next({ error: "At least one input field must be filled out" });
   }

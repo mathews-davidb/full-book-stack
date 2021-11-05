@@ -78,6 +78,8 @@ async function seedValues() {
   }
 }
 
+createUser({ email: "email", name: "Test", password: "password" });
+
 const sleep = (time) => {
   return new Promise((resolve) => setTimeout(resolve, time));
 };
@@ -90,10 +92,35 @@ const seedProducts = async () => {
       )
       .then(async (response) => {
         const categories = response.data.results;
+
         for (let category of categories) {
-          // console.log(category.display_name);
+          $: categoryName = category.display_name;
+          if (category.display_name.includes("Fiction")) {
+            createCategory("Fiction");
+            categoryName = "Fiction";
+          } else if (category.display_name.includes("Nonfiction")) {
+            createCategory("Nonfiction");
+            categoryName = "Nonfiction";
+          } else if (category.display_name.includes("Advice")) {
+            createCategory("Advice");
+            categoryName = "Advice";
+          } else if (category.display_name.includes("Graphic")) {
+            createCategory("Graphic");
+            categoryName = "Graphic";
+          } else if (
+            category.display_name.includes("Children") ||
+            category.display_name.includes("Middle Grade")
+          ) {
+            createCategory("Children");
+            categoryName = "Children";
+          } else if (category.display_name.includes("Young Adult")) {
+            createCategory("Young Adult");
+            categoryName = "Young Adult";
+          } else if (category.display_name.includes("Business")) {
+            createCategory("Business");
+            categoryName = "Business";
+          } else createCategory(category.display_name);
           await sleep(10000);
-          createCategory(category.display_name);
           axios
             .get(
               `https://api.nytimes.com/svc/books/v3/lists/${category.list_name_encoded}.json?api-key=bYXKRa8vHpJZn0WEWdSrD1pK74e6AjEp`
@@ -109,7 +136,7 @@ const seedProducts = async () => {
                   description: book.description,
                   price: price,
                   stock: 100,
-                  category: category.display_name,
+                  category: categoryName,
                   author: book.author,
                   image: book.book_image,
                 });
