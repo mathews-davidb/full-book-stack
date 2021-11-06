@@ -41,4 +41,4 @@ async function getAllCategories() {
 
 //==========================================================
 
-module.exports = { createCategory };
+module.exports = { createCategory, getAllCategories };

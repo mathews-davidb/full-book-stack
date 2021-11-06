@@ -16,6 +16,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   const getUser = async () => {
     if (!token) {
@@ -48,6 +49,20 @@ function App() {
       setIsAdmin(user.is_admin);
     }
   }, [user]);
+
+  //---------------------------------------------------------
+
+  const getCategories = async () => {
+    const response = await fetch(`${baseUrl}/categories`);
+    const info = await response.json();
+    setCategories(info);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  //---------------------------------------------------------
 
   return (
     <div className="App">
@@ -86,7 +101,7 @@ function App() {
         <AllProducts />
       </Route>
       <Route exact path="/admin">
-        <Admin token={token} user={user} />
+        <Admin token={token} user={user} categories={categories} />
       </Route>
     </div>
   );

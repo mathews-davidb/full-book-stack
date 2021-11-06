@@ -1,10 +1,6 @@
 const cartItemsRouter = require("express").Router();
 
-const {
-  updateCartItem,
-  deleteProductFromOrder,
-  deleteCartItem,
-} = require("../db/cart_items");
+const { updateCartItem, deleteCartItem } = require("../db/cart_items");
 
 //==========================================================
 

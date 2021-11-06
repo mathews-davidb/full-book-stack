@@ -2,12 +2,15 @@ const dotenv = require("dotenv").config();
 
 const express = require("express");
 const server = express();
+const multer = require("multer");
 
 // const client = require("./db/client");
 // client.connect();
 
+const upload = multer({ dest: "public/images" });
 const cors = require("cors");
 server.use(cors());
+server.use(express.static("public"));
 
 server.use(express.json());
 const jwt = require("jsonwebtoken");
