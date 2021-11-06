@@ -33,8 +33,6 @@ server.use(async (req, res, next) => {
     const user = await getUserByEmail(decodedToken.email);
     delete user.password;
     req.user = user;
-    // console.log(user);
-    // console.log(req.user);
     return next();
   }
 });

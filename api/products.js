@@ -103,7 +103,7 @@ productsRouter.delete("/:productId", async (req, res) => {
 
 //==========================================================
 
-productsRouter.get("/:category", async (req, res) => {
+productsRouter.get("/category/:name", async (req, res) => {
   const category = req.params.category;
   const product = await getProductByCategory(category);
   res.send(product);

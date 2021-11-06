@@ -2,6 +2,7 @@ const usersRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { getUser, createUser, getUserByEmail } = require("../db/users");
+const { createOrder } = require("../db/orders");
 
 //==========================================================
 
@@ -26,6 +27,7 @@ usersRouter.post("/register", async (req, res, next) => {
       });
     }
     const newUser = await createUser({ email, name, password });
+    createOrder(newUser.id);
     res.send({ user: newUser });
   } catch (error) {
     throw error;

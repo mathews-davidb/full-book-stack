@@ -9,6 +9,7 @@ import Cart from "./components/Cart";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import ProductPage from "./components/ProductPage";
 import Register from "./components/Register";
 
 function App() {
@@ -91,17 +92,16 @@ function App() {
         />
       </Route>
       <Route exact path="/register">
-        <Register
-          token={token}
-          setToken={setToken}
-          setIsLoggedIn={setIsLoggedIn}
-        />
+        <Register setToken={setToken} setIsLoggedIn={setIsLoggedIn} />
       </Route>
       <Route exact path="/products">
         <AllProducts />
       </Route>
       <Route exact path="/admin">
         <Admin token={token} user={user} categories={categories} />
+      </Route>
+      <Route exact path="/products/:id">
+        <ProductPage />
       </Route>
     </div>
   );
