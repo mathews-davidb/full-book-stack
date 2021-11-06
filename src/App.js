@@ -9,6 +9,7 @@ import Cart from "./components/Cart";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import ProductPage from "./components/ProductPage";
 import Register from "./components/Register";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   const getUser = async () => {
     if (!token) {
@@ -49,6 +51,20 @@ function App() {
     }
   }, [user]);
 
+  //---------------------------------------------------------
+
+  const getCategories = async () => {
+    const response = await fetch(`${baseUrl}/categories`);
+    const info = await response.json();
+    setCategories(info);
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  //---------------------------------------------------------
+
   return (
     <div className="App">
       <Navbar
@@ -76,17 +92,16 @@ function App() {
         />
       </Route>
       <Route exact path="/register">
-        <Register
-          token={token}
-          setToken={setToken}
-          setIsLoggedIn={setIsLoggedIn}
-        />
+        <Register setToken={setToken} setIsLoggedIn={setIsLoggedIn} />
       </Route>
       <Route exact path="/products">
         <AllProducts />
       </Route>
       <Route exact path="/admin">
-        <Admin token={token} user={user} />
+        <Admin token={token} user={user} categories={categories} />
+      </Route>
+      <Route exact path="/products/:id">
+        <ProductPage />
       </Route>
     </div>
   );

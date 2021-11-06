@@ -61,6 +61,7 @@ ordersRouter.patch("/:id", async (req, res, next) => {
     }
 
     const orderUpdate = await updateOrder(id);
+    createOrder(user_id);
     res.send(orderUpdate);
   } catch (error) {
     console.log(error);

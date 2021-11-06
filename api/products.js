@@ -12,6 +12,10 @@ const {
 
 const productsRouter = express.Router();
 
+const multer = require("multer");
+
+const upload = multer({ dest: "public/images" });
+
 //==========================================================
 
 productsRouter.get("/", async (req, res) => {
@@ -21,8 +25,9 @@ productsRouter.get("/", async (req, res) => {
 
 //==========================================================
 
-productsRouter.post("/", async (req, res, next) => {
-  const { name, description, price, stock, category, author, image } = req.body;
+productsRouter.post("/", upload.single("image"), async (req, res, next) => {
+  const { name, description, price, stock, category, author } = req.body;
+  const image = req.file.filename;
   if (
     !name ||
     !description ||
@@ -49,6 +54,7 @@ productsRouter.post("/", async (req, res, next) => {
     author,
     image,
   });
+  console.log(newProduct);
   res.send(newProduct);
 });
 
@@ -97,7 +103,7 @@ productsRouter.delete("/:productId", async (req, res) => {
 
 //==========================================================
 
-productsRouter.get("/:category", async (req, res) => {
+productsRouter.get("/category/:name", async (req, res) => {
   const category = req.params.category;
   const product = await getProductByCategory(category);
   res.send(product);

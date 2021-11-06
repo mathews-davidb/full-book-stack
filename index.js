@@ -2,12 +2,15 @@ const dotenv = require("dotenv").config();
 
 const express = require("express");
 const server = express();
+const multer = require("multer");
 
 // const client = require("./db/client");
 // client.connect();
 
+const upload = multer({ dest: "public/images" });
 const cors = require("cors");
 server.use(cors());
+server.use(express.static("public"));
 
 server.use(express.json());
 const jwt = require("jsonwebtoken");
@@ -30,8 +33,6 @@ server.use(async (req, res, next) => {
     const user = await getUserByEmail(decodedToken.email);
     delete user.password;
     req.user = user;
-    // console.log(user);
-    // console.log(req.user);
     return next();
   }
 });

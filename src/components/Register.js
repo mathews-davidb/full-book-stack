@@ -33,6 +33,7 @@ const Register = (props) => {
       }),
     });
     const info = await response.json();
+    console.log(info);
 
     if (info.error) {
       return setErrorMessage(info.error);
