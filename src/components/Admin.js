@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { DataGrid } from "@mui/x-data-grid";
 import "./Components.css";
 import {
   Button,
@@ -15,7 +14,9 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@mui/material";
@@ -75,29 +76,6 @@ const Admin = (props) => {
   useEffect(() => {
     getAllUsers();
   }, []);
-
-  //--------------------------------------------------
-
-  const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "user_name", headerName: "Name", width: 130 },
-    { field: "email", headerName: "Email", width: 130 },
-    {
-      field: "is_admin",
-      headerName: "Admin?",
-      width: 90,
-    },
-  ];
-
-  const rows = [
-    // users.map((user) => {
-    //   return `{id: ${user.id}, user_name: ${user.name}, email: ${
-    //     user.email
-    //   }, is_admin: ${user.is_admin ? "Yes" : "No"}}`;
-    // }),
-  ];
-
-  //--------------------------------------------------
 
   return (
     <>
@@ -204,8 +182,12 @@ const Admin = (props) => {
         >
           Users List:
         </h3>
-        {/* <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 650 }}
+            aria-label="simple table"
+            size={"medium"}
+          >
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
@@ -229,17 +211,26 @@ const Admin = (props) => {
                 </TableRow>
               ))}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  colSpan={3}
+                  //   count={rows.length}
+                  rowsPerPage={10}
+                  //   page={page}
+                  SelectProps={{
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  }}
+                  //   onPageChange={handleChangePage}
+                  //   ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
-        </TableContainer> */}
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-          />
-        </div>
+        </TableContainer>
       </div>
     </>
   );

@@ -291,7 +291,14 @@ const Navbar = (props) => {
                   {props.categories.map((category) => {
                     return (
                       <MenuItem key={category.id} onClick={handleClose}>
-                        {category.name}
+                        <Link
+                          to={
+                            "/products/category/" + category.name.toLowerCase()
+                          }
+                        >
+                          {" "}
+                          {category.name}
+                        </Link>
                       </MenuItem>
                     );
                   })}
