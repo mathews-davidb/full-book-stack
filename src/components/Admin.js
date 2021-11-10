@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 import "./Components.css";
 import {
   Button,
+  CssBaseline,
   IconButton,
   Input,
   InputLabel,
@@ -57,77 +60,90 @@ const Admin = (props) => {
 
   return (
     <>
-      <h1>Admin Dashboard</h1>
-
-      <form onSubmit={addProduct}>
-        <TextField
-          id="add-product-input"
-          label="Name"
-          value={name}
-          variant="outlined"
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <TextField
-          id="add-product-input"
-          label="Author"
-          value={author}
-          variant="outlined"
-          onChange={(e) => setAuthor(e.target.value)}
-          required
-        />
-        <TextField
-          id="add-product-input"
-          label="Description"
-          value={description}
-          variant="outlined"
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-
-        <TextField
-          id="add-product-input"
-          label="Price"
-          value={price}
-          variant="outlined"
-          onChange={(e) => setPrice(e.target.value)}
-          required
-        />
-        <TextField
-          id="add-product-input"
-          label="Stock"
-          value={quantity}
-          variant="outlined"
-          onChange={(e) => setQuantity(e.target.value)}
-          required
-        />
-        <InputLabel id="demo-simple-select-standard-label">Category</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select-helper"
-          value={category}
-          label="Category"
-          onChange={(e) => setCategory(e.target.value)}
-          required
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 18,
+          }}
         >
-          {props.categories.map((category) => {
-            return <MenuItem value={category.name}>{category.name}</MenuItem>;
-          })}
-        </Select>
-        <TextField
-          id="add-product-input"
-          label="Add Product Image"
-          InputLabelProps={{ shrink: true }}
-          type="file"
-          variant="outlined"
-          onChange={(e) => setImage(e.target.files[0])}
-          required
-        />
-        <Button type="submit" variant="outlined">
-          Add Product!
-        </Button>
-      </form>
-      <p style={{ color: "red" }}>{errorMessage}</p>
+          <h1>Admin Dashboard</h1>
+
+          <form onSubmit={addProduct}>
+            <TextField
+              id="add-product-input"
+              label="Name"
+              value={name}
+              variant="outlined"
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <TextField
+              id="add-product-input"
+              label="Author"
+              value={author}
+              variant="outlined"
+              onChange={(e) => setAuthor(e.target.value)}
+              required
+            />
+            <TextField
+              id="add-product-input"
+              label="Description"
+              value={description}
+              variant="outlined"
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+
+            <TextField
+              id="add-product-input"
+              label="Price"
+              value={price}
+              variant="outlined"
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+            <TextField
+              id="add-product-input"
+              label="Stock"
+              value={quantity}
+              variant="outlined"
+              onChange={(e) => setQuantity(e.target.value)}
+              required
+            />
+            <InputLabel id="demo-simple-select-standard-label">
+              Category
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select-helper"
+              value={category}
+              label="Category"
+              onChange={(e) => setCategory(e.target.value)}
+              required
+            >
+              {props.categories.map((category) => {
+                return (
+                  <MenuItem value={category.name}>{category.name}</MenuItem>
+                );
+              })}
+            </Select>
+            <TextField
+              id="add-product-input"
+              label="Add Product Image"
+              InputLabelProps={{ shrink: true }}
+              type="file"
+              variant="outlined"
+              onChange={(e) => setImage(e.target.files[0])}
+              required
+            />
+            <Button type="submit" variant="outlined">
+              Add Product!
+            </Button>
+          </form>
+          <p style={{ color: "red" }}>{errorMessage}</p>
+        </Box>
+      </Container>
     </>
   );
 };

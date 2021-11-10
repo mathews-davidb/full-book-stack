@@ -72,7 +72,7 @@ ordersRouter.patch("/:id", async (req, res, next) => {
 
 ordersRouter.get("/cart", async (req, res, next) => {
   if (!req.user) {
-    next();
+    return next();
   }
   try {
     const userId = req.user.id;

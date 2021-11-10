@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import baseUrl from "../api";
+import { ThumbUp } from "@mui/icons-material";
 
 const ProductPage = (props) => {
   const [book, setBook] = useState("");
@@ -27,9 +28,9 @@ const ProductPage = (props) => {
   return (
     <div
       style={{
-        marginTop: "6rem",
-        marginLeft: "1.2rem",
-        marginRight: "1.2rem",
+        marginTop: "12em",
+        marginLeft: "4rem",
+        marginRight: "4rem",
         display: "grid",
         gridTemplateColumns: "50% 50%",
       }}
@@ -43,7 +44,12 @@ const ProductPage = (props) => {
           {book.description}
         </div>
         <div style={{ marginTop: "2rem" }}>
-          {book.stock && <div> In Stock - {book.stock} available</div>}
+          {book.stock && (
+            <div>
+              <ThumbUp style={{ color: "green", marginRight: "1rem" }} />
+              <span> In Stock - {book.stock} available</span>
+            </div>
+          )}
           {!book.stock && <div style={{ color: "red" }}> Out of Stock</div>}
           <div style={{ marginTop: "1em" }}>${book.price}</div>
           <form style={{ marginTop: "1em" }}>
