@@ -1,7 +1,12 @@
 const usersRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { getUser, createUser, getUserByEmail } = require("../db/users");
+const {
+  getUser,
+  createUser,
+  getUserByEmail,
+  getAllUsers,
+} = require("../db/users");
 const { createOrder } = require("../db/orders");
 
 //==========================================================
@@ -72,6 +77,17 @@ usersRouter.get("/me", (req, res) => {
     return res.send(req.user);
   }
   res.status(401).send("Not logged in!");
+});
+
+//==========================================================
+
+usersRouter.get("/", async (req, res) => {
+  try {
+    const users = await getAllUsers();
+    res.send(users);
+  } catch (error) {
+    res.status(401).send("Not logged in!");
+  }
 });
 
 //==========================================================

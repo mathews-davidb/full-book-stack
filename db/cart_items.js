@@ -4,7 +4,7 @@ const { getProductById, deleteProduct } = require("./products");
 //==========================================================
 
 const addCartItem = async ({ order_id, product_id, quantity }) => {
-  // console.log(product_id);
+  console.log(product_id);
   const product = await getProductById(product_id);
   const price = product.price;
   const name = product.name;

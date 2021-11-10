@@ -25,6 +25,29 @@ const createUser = async ({ email, name, password }) => {
 
 //==========================================================
 
+const getAllUsers = async () => {
+  try {
+    const resp = await client.query(
+      `
+              SELECT *
+              FROM users
+            `
+    );
+
+    const users = resp.rows;
+    for (let user of users) {
+      delete user.password;
+    }
+    return users;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// getAllUsers().then(console.log);
+
+//==========================================================
+
 const getUser = async ({ email, password }) => {
   try {
     const resp = await client.query(
@@ -117,4 +140,5 @@ module.exports = {
   getUserById,
   getUserByEmail,
   deleteUser,
+  getAllUsers,
 };

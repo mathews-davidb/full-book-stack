@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import { DataGrid } from "@mui/x-data-grid";
 import "./Components.css";
 import {
   Button,
@@ -10,9 +11,15 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import baseUrl from "../api";
 
 const Admin = (props) => {
@@ -24,6 +31,7 @@ const Admin = (props) => {
   const [quantity, setQuantity] = useState("");
   const [image, setImage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [users, setUsers] = useState([]);
 
   const addProduct = async (e) => {
     e.preventDefault();
@@ -58,92 +66,181 @@ const Admin = (props) => {
     setErrorMessage("");
   };
 
+  const getAllUsers = async () => {
+    const resp = await fetch(`${baseUrl}/users`);
+    const info = await resp.json();
+    setUsers(info);
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  //--------------------------------------------------
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "user_name", headerName: "Name", width: 130 },
+    { field: "email", headerName: "Email", width: 130 },
+    {
+      field: "is_admin",
+      headerName: "Admin?",
+      width: 90,
+    },
+  ];
+
+  const rows = [
+    // users.map((user) => {
+    //   return `{id: ${user.id}, user_name: ${user.name}, email: ${
+    //     user.email
+    //   }, is_admin: ${user.is_admin ? "Yes" : "No"}}`;
+    // }),
+  ];
+
+  //--------------------------------------------------
+
   return (
     <>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 18,
+      <h1
+        style={{
+          textAlign: "center",
+          marginBottom: "2rem",
+          textDecoration: "underline",
+        }}
+      >
+        Admin Dashboard
+      </h1>
+      <div>
+        <h3 style={{ marginLeft: "1rem", marginBottom: "0rem" }}>
+          Add New Product:
+        </h3>
+        <form onSubmit={addProduct}>
+          <TextField
+            style={{ margin: "1rem" }}
+            id="add-product-input"
+            label="Name"
+            value={name}
+            variant="outlined"
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <TextField
+            style={{ margin: "1rem" }}
+            id="add-product-input"
+            label="Author"
+            value={author}
+            variant="outlined"
+            onChange={(e) => setAuthor(e.target.value)}
+            required
+          />
+          <TextField
+            style={{ margin: "1rem" }}
+            id="add-product-input"
+            label="Description"
+            value={description}
+            variant="outlined"
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+
+          <TextField
+            style={{ margin: "1rem" }}
+            id="add-product-input"
+            label="Price"
+            value={price}
+            variant="outlined"
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+          <TextField
+            style={{ margin: "1rem" }}
+            id="add-product-input"
+            label="Stock"
+            value={quantity}
+            variant="outlined"
+            onChange={(e) => setQuantity(e.target.value)}
+            required
+          />
+          <Select
+            style={{ margin: "1rem" }}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select-helper"
+            value={category}
+            label="Category"
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          >
+            {props.categories.map((category) => {
+              return <MenuItem value={category.name}>{category.name}</MenuItem>;
+            })}
+          </Select>
+          <TextField
+            style={{ margin: "1rem" }}
+            id="add-product-input"
+            label="Add Product Image"
+            InputLabelProps={{ shrink: true }}
+            type="file"
+            variant="outlined"
+            onChange={(e) => setImage(e.target.files[0])}
+            required
+          />
+          <Button
+            style={{ margin: "1rem", height: "56px" }}
+            type="submit"
+            variant="contained"
+          >
+            Add Product!
+          </Button>
+        </form>
+        <p style={{ color: "red" }}>{errorMessage}</p>
+      </div>
+      <div>
+        <h3
+          style={{
+            marginLeft: "1rem",
+            marginBottom: "0rem",
+            marginBottom: "1rem",
           }}
         >
-          <h1>Admin Dashboard</h1>
-
-          <form onSubmit={addProduct}>
-            <TextField
-              id="add-product-input"
-              label="Name"
-              value={name}
-              variant="outlined"
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <TextField
-              id="add-product-input"
-              label="Author"
-              value={author}
-              variant="outlined"
-              onChange={(e) => setAuthor(e.target.value)}
-              required
-            />
-            <TextField
-              id="add-product-input"
-              label="Description"
-              value={description}
-              variant="outlined"
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            />
-
-            <TextField
-              id="add-product-input"
-              label="Price"
-              value={price}
-              variant="outlined"
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-            <TextField
-              id="add-product-input"
-              label="Stock"
-              value={quantity}
-              variant="outlined"
-              onChange={(e) => setQuantity(e.target.value)}
-              required
-            />
-            <InputLabel id="demo-simple-select-standard-label">
-              Category
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select-helper"
-              value={category}
-              label="Category"
-              onChange={(e) => setCategory(e.target.value)}
-              required
-            >
-              {props.categories.map((category) => {
-                return (
-                  <MenuItem value={category.name}>{category.name}</MenuItem>
-                );
-              })}
-            </Select>
-            <TextField
-              id="add-product-input"
-              label="Add Product Image"
-              InputLabelProps={{ shrink: true }}
-              type="file"
-              variant="outlined"
-              onChange={(e) => setImage(e.target.files[0])}
-              required
-            />
-            <Button type="submit" variant="outlined">
-              Add Product!
-            </Button>
-          </form>
-          <p style={{ color: "red" }}>{errorMessage}</p>
-        </Box>
-      </Container>
+          Users List:
+        </h3>
+        {/* <TableContainer>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="left">Email</TableCell>
+                <TableCell align="center">Admin?</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow
+                  key={user.email}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {user.name}
+                  </TableCell>
+                  <TableCell align="left">{user.email}</TableCell>
+                  <TableCell align="center">
+                    {user.is_admin ? "Yes" : "No"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer> */}
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
+        </div>
+      </div>
     </>
   );
 };

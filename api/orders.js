@@ -92,6 +92,7 @@ ordersRouter.post("/:id/products", async (req, res, next) => {
   try {
     const order_id = req.params.id;
     const { product_id, quantity } = req.body;
+    console.log(order_id, product_id, quantity);
     const resp = await addCartItem({
       order_id,
       product_id,
