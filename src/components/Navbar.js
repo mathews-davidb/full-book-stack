@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-// import "./Components.css";
+
+import "./Components.css";
 // import AppBar from "@mui/material/AppBar";
 // import Toolbar from "@mui/material/Toolbar";
 // import { Typography } from "@mui/material";
@@ -23,6 +24,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import baseUrl from "../api";
+import { Category } from "@mui/icons-material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -86,6 +89,14 @@ const Navbar = (props) => {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const menuId = "primary-search-account-menu";
@@ -165,91 +176,149 @@ const Navbar = (props) => {
     <>
       <AppBar>
         <Toolbar>
-          <Typography
-            fontFamily="-apple-system"
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            <Link to="/">FULL BOOKSTACK</Link>
-          </Typography>
-
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
-          {props.isLoggedIn && (
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <Link to="/account">
-                {" "}
-                <AccountCircle />
-              </Link>
-            </IconButton>
-          )}
-          {props.isAdmin && (
-            <Button style={{ backgroundColor: "#E6E2E6" }} variant="contained">
-              <Link to="/admin">Admin</Link>
-            </Button>
-          )}
-          {!props.isLoggedIn && (
-            <Button style={{ backgroundColor: "#E6E2E6" }} variant="contained">
-              <Link to="/login">Login</Link>
-            </Button>
-          )}
-          {props.isLoggedIn && (
-            <Button style={{ backgroundColor: "#E6E2E6" }} variant="contained">
-              {" "}
-              <Link
-                to="/"
-                onClick={() => {
-                  localStorage.setItem("token", "");
-                  props.setIsLoggedIn(false);
-                  props.setUser(null);
-                  props.setToken("");
-                  props.setIsAdmin(false);
-                }}
+          <div className="navbar">
+            <div className="navbar-top">
+              <Typography
+                fontFamily="-apple-system"
+                variant="h5"
+                noWrap
+                component="div"
+                sx={{ display: { xs: "none", sm: "block" } }}
               >
-                Logout{" "}
-              </Link>
-            </Button>
-          )}
-          <IconButton
-            size="large"
-            aria-label="show more"
-            aria-controls={mobileMenuId}
-            aria-haspopup="true"
-            onClick={handleMobileMenuOpen}
-            color="inherit"
-          >
-            <Link to="/cart">
-              <AddShoppingCartIcon />
-              {/* <ShoppingCartIcon /> */}
-            </Link>
-          </IconButton>
+                <Link to="/">FULL BOOKSTACK</Link>
+              </Typography>
 
-          {/* <div className="navbar-bottom">
-            <span>
-              {" "}
-              <Link></Link>{" "}
-            </span>
-            <span> Category 1 |</span>
-            <span> Category 2 |</span>
-            <span> Category 3 |</span>
-          </div> */}
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </Search>
+              {props.isLoggedIn && (
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <Link to="/account">
+                    {" "}
+                    <AccountCircle />
+                  </Link>
+                </IconButton>
+              )}
+              {props.isAdmin && (
+                <Button
+                  style={{ backgroundColor: "#E6E2E6" }}
+                  variant="contained"
+                >
+                  <Link to="/admin">Admin</Link>
+                </Button>
+              )}
+              {!props.isLoggedIn && (
+                <Button
+                  style={{ backgroundColor: "#E6E2E6" }}
+                  variant="contained"
+                >
+                  <Link to="/login">Login</Link>
+                </Button>
+              )}
+              {props.isLoggedIn && (
+                <Button
+                  style={{ backgroundColor: "#E6E2E6" }}
+                  variant="contained"
+                >
+                  {" "}
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      localStorage.setItem("token", "");
+                      props.setIsLoggedIn(false);
+                      props.setUser(null);
+                      props.setToken("");
+                      props.setIsAdmin(false);
+                    }}
+                  >
+                    Logout{" "}
+                  </Link>
+                </Button>
+              )}
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <Link to="/cart">
+                  {/* <AddShoppingCartIcon /> */}
+                  <ShoppingCartIcon />
+                </Link>
+              </IconButton>
+            </div>
+
+            <div className="navbar-bottom">
+              <div>
+                <IconButton
+                  id="basic-button"
+                  size="large"
+                  aria-controls="basic-menu"
+                  aria-haspopup="true"
+                  aria-expanded={isMenuOpen ? "true" : undefined}
+                  onClick={handleClick}
+                  color="inherit"
+                  margin-
+                >
+                  <MenuIcon /> All
+                </IconButton>
+
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={isMenuOpen}
+                  onClose={handleClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                >
+                  {props.categories.map((category) => {
+                    return (
+                      <MenuItem key={category.id} onClick={handleClose}>
+                        {category.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Menu>
+                <Button color="inherit">
+                  {" "}
+                  <Link to="/products/category/fiction">Fiction </Link>
+                </Button>
+                <Button color="inherit">
+                  {" "}
+                  <Link to="/products/category/nonfiction">Nonfiction</Link>
+                </Button>
+                <Button color="inherit">
+                  {" "}
+                  <Link to="/products/category/children">Children</Link>
+                </Button>
+                <Button color="inherit">
+                  {" "}
+                  <Link to="/products/category/young%20adult">Young Adult</Link>
+                </Button>
+                <Button color="inherit">
+                  {" "}
+                  <Link to="/products/category/travel">Travel</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
         </Toolbar>
       </AppBar>
     </>

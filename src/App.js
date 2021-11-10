@@ -9,6 +9,7 @@ import Cart from "./components/Cart";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import ProductCategory from "./components/ProductCategory";
 import ProductPage from "./components/ProductPage";
 import Register from "./components/Register";
 
@@ -18,6 +19,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [cart, setCart] = useState([]);
 
   const getUser = async () => {
     if (!token) {
@@ -32,6 +34,19 @@ function App() {
     });
     const info = await response.json();
     setUser(info);
+  };
+
+  const getMyCart = async () => {
+    console.log("Fetching...");
+    const resp = await fetch(`${baseUrl}/orders/cart`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const info = await resp.json();
+
+    //   setCart(info.products);
   };
 
   useEffect(() => {
@@ -49,6 +64,13 @@ function App() {
     if (user) {
       setIsAdmin(user.is_admin);
     }
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    getMyCart();
   }, [user]);
 
   //---------------------------------------------------------
@@ -74,12 +96,13 @@ function App() {
         setToken={setToken}
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}
+        categories={categories}
       ></Navbar>
       <Route exact path="/">
         <Home />
       </Route>
       <Route exact path="/cart">
-        <Cart user={user} token={token} />
+        <Cart user={user} token={token} cart={cart} />
       </Route>
       <Route exact path="/account">
         <Account token={token} user={user} />
@@ -102,6 +125,9 @@ function App() {
       </Route>
       <Route exact path="/products/:id">
         <ProductPage />
+      </Route>
+      <Route exact path="/products/category/:name">
+        <ProductCategory />
       </Route>
     </div>
   );

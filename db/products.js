@@ -230,7 +230,7 @@ async function getProductByCategory(category) {
       `
                 SELECT *
                 FROM products
-                WHERE category=$1
+                WHERE lower(category)=$1
               `,
       [category]
     );

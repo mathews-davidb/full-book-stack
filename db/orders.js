@@ -84,6 +84,7 @@ const getCart = async (user_id) => {
     );
 
     const cart = resp.rows[0];
+    console.log(cart);
     if (!cart) {
       return;
     }
@@ -97,6 +98,7 @@ const getCart = async (user_id) => {
     );
     const products = data.rows;
     cart.products = products;
+
     return cart;
   } catch (error) {
     throw error;
