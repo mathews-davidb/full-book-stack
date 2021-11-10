@@ -36,19 +36,6 @@ function App() {
     setUser(info);
   };
 
-  const getMyCart = async () => {
-    console.log("Fetching...");
-    const resp = await fetch(`${baseUrl}/orders/cart`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const info = await resp.json();
-
-    //   setCart(info.products);
-  };
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -66,12 +53,25 @@ function App() {
     }
   }, [user]);
 
+  const getMyCart = async () => {
+    const resp = await fetch(`${baseUrl}/orders/cart`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const info = await resp.json();
+    setCart(info);
+  };
+
   useEffect(() => {
     if (!user) {
       return;
     }
     getMyCart();
   }, [user]);
+
+  console.log(cart);
 
   //---------------------------------------------------------
 
@@ -98,37 +98,39 @@ function App() {
         setIsAdmin={setIsAdmin}
         categories={categories}
       ></Navbar>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route exact path="/cart">
-        <Cart user={user} token={token} cart={cart} />
-      </Route>
-      <Route exact path="/account">
-        <Account token={token} user={user} />
-      </Route>
-      <Route exact path="/login">
-        <Login
-          token={token}
-          setToken={setToken}
-          setIsLoggedIn={setIsLoggedIn}
-        />
-      </Route>
-      <Route exact path="/register">
-        <Register setToken={setToken} setIsLoggedIn={setIsLoggedIn} />
-      </Route>
-      <Route exact path="/products">
-        <AllProducts />
-      </Route>
-      <Route exact path="/admin">
-        <Admin token={token} user={user} categories={categories} />
-      </Route>
-      <Route exact path="/products/:id">
-        <ProductPage />
-      </Route>
-      <Route exact path="/products/category/:name">
-        <ProductCategory />
-      </Route>
+      <div style={{ marginTop: "10rem" }}>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/cart">
+          <Cart user={user} token={token} cart={cart} />
+        </Route>
+        <Route exact path="/account">
+          <Account token={token} user={user} />
+        </Route>
+        <Route exact path="/login">
+          <Login
+            token={token}
+            setToken={setToken}
+            setIsLoggedIn={setIsLoggedIn}
+          />
+        </Route>
+        <Route exact path="/register">
+          <Register setToken={setToken} setIsLoggedIn={setIsLoggedIn} />
+        </Route>
+        <Route exact path="/products">
+          <AllProducts />
+        </Route>
+        <Route exact path="/admin">
+          <Admin token={token} user={user} categories={categories} />
+        </Route>
+        <Route exact path="/products/:id">
+          <ProductPage cart={cart} user={user} token={token} />
+        </Route>
+        <Route exact path="/products/category/:name">
+          <ProductCategory />
+        </Route>
+      </div>
     </div>
   );
 }

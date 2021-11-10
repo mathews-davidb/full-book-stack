@@ -14,6 +14,8 @@ import { ThumbUp } from "@mui/icons-material";
 
 const ProductPage = (props) => {
   const [book, setBook] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const getBookInfo = async () => {
     const response = await fetch(`${baseUrl}${window.location.pathname}`);
@@ -24,6 +26,32 @@ const ProductPage = (props) => {
   useEffect(() => {
     getBookInfo();
   }, []);
+
+  const addItemToCart = async (e) => {
+    e.preventDefault();
+    const product_id = window.location.pathname.substring(10);
+    console.log(product_id, quantity);
+    const response = await fetch(
+      `${baseUrl}/orders/${props.cart.id}/products`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.token}`,
+        },
+        body: JSON.stringify({
+          product_id: product_id,
+          quantity: quantity,
+        }),
+      }
+    );
+    const info = await response.json();
+    console.log(info);
+    if (info.error) {
+      console.log(info.error);
+      return setErrorMessage(info.error);
+    }
+  };
 
   return (
     <div
@@ -52,8 +80,13 @@ const ProductPage = (props) => {
           )}
           {!book.stock && <div style={{ color: "red" }}> Out of Stock</div>}
           <div style={{ marginTop: "1em" }}>${book.price}</div>
-          <form style={{ marginTop: "1em" }}>
-            <select>
+          <form onSubmit={addItemToCart} style={{ marginTop: "1em" }}>
+            <select
+              required
+              onChange={(e) => {
+                setQuantity(e.target.value);
+              }}
+            >
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>

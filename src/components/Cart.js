@@ -5,27 +5,7 @@ import baseUrl from "../api";
 import "./Components.css";
 
 const Cart = (props) => {
-  const [cart, setCart] = useState([]);
-
-  const getMyCart = async () => {
-    const resp = await fetch(`${baseUrl}/orders/cart`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${props.token}`,
-      },
-    });
-    const info = await resp.json();
-    setCart(info.products);
-
-    console.log(info);
-  };
-
-  useEffect(() => {
-    if (!props.user) {
-      return;
-    }
-    getMyCart();
-  }, [props.user]);
+  const cart = props.cart;
 
   const Basket = () => {
     const classes = useStyles();
@@ -39,7 +19,7 @@ const Cart = (props) => {
             </div>
 
             {cart &&
-              cart.map((product) => {
+              cart.products.map((product) => {
                 return (
                   <div key={product.product_id}>
                     <div className={classes.cartItems}>
@@ -63,7 +43,9 @@ const Cart = (props) => {
                   </div>
                 );
               })}
-            {cart.length === 0 && <div> No items currently in the cart. </div>}
+            {cart.products.length === 0 && (
+              <div> No items currently in the cart. </div>
+            )}
           </div>
         </body>
       </>
