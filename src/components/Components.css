@@ -1,8 +1,62 @@
 .navbar-top {
+  position: relative;
+  height: 4em;
+  min-width: 100vw;
+  max-width: auto;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 20% 30% 20% 10% 10% 10%;
+  grid-template-columns: 20em auto 30em;
+  background-color: #687864;
 }
 
 .navbar-bottom {
-  margin-top: 20px;
+  position: relative;
+
+  height: 3em;
+  min-width: 100vw;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/*---------------------------------------------- HOME PAGE -----------------------*/
+.home-page {
+  height: 1000px;
+  max-width: 850px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.home-page > div {
+  height: 200px;
+  width: 2526px;
+  background: url(https://i.imgur.com/1krQqjk.jpeg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transform: translate3d(0, 0, 0);
+}
+
+.home-page .mover-1 {
+  animation: moveSlideshow 15s linear infinite;
+}
+.home-page .mover-2 {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  background-position: 0 -200px;
+  animation: moveSlideshow 15s linear infinite;
+}
+
+@keyframes moveSlideshow {
+  100% {
+    transform: translateX(-66.6666%);
+  }
 }

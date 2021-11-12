@@ -29,23 +29,23 @@ const AllProducts = (props) => {
     getAllBooks();
   }, []);
 
-  const addToCart = async (productId) => {
-    const response = await fetch(`${baseUrl}/products`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${props.token}`,
-      },
-      body: {
-        product_id: productId,
-        quantity: 1,
-      },
-    });
-    const info = await response.json();
-    if (info.error) {
-      console.log(info.error);
-      return setErrorMessage(info.error);
-    }
-  };
+  //   const addToCart = async (productId) => {
+  //     const response = await fetch(`${baseUrl}/products`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${props.token}`,
+  //       },
+  //       body: {
+  //         product_id: productId,
+  //         quantity: 1,
+  //       },
+  //     });
+  //     const info = await response.json();
+  //     if (info.error) {
+  //       console.log(info.error);
+  //       return setErrorMessage(info.error);
+  //     }
+  //   };
 
   return (
     <>
@@ -67,10 +67,6 @@ const AllProducts = (props) => {
                     />
                     <br></br>
                     <Typography align="center"> {book.name}</Typography>
-                    <Typography variant="subtitle2">
-                      {" "}
-                      {book.description}
-                    </Typography>
                     <Typography align="right">${book.price}</Typography>
                     {/* <Typography> {book.stock}</Typography> */}
                   </CardContent>

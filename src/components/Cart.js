@@ -1,58 +1,165 @@
-import { useEffect, useState } from "react";
-import useStyles from "./styles";
-
-import baseUrl from "../api";
 import "./Components.css";
+import {
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import baseUrl from "../api";
+
+const TAX_RATE = 0.07;
+
+const useStyles = makeStyles({
+  header: {
+    marginLeft: "30px",
+  },
+  root: {
+    width: "60%",
+    marginTop: "50px",
+    overflowX: "auto",
+    marginLeft: "30px",
+  },
+  table: {
+    minWidth: 700,
+  },
+  row: {
+    backgroundColor: "#8fc1e3",
+  },
+});
 
 const Cart = (props) => {
   const cart = props.cart;
 
+  function ccyFormat(num) {
+    return `${Number(num).toFixed(2)}`;
+  }
+
+  let subtotal = 0;
+
+  for (let product of cart.products) {
+    subtotal = product.price * product.quantity + subtotal;
+  }
+
+  const taxes = subtotal * TAX_RATE;
+  const invoiceTotal = subtotal + taxes;
+
   const Basket = () => {
     const classes = useStyles();
+
+    //=======================================================
+
+    // const deleteProductFromCart = async (productId) => {
+    //   await fetch(`${baseUrl}/cartItems/${productId}`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       Authorization: `Bearer ${props.token}`,
+    //     },
+    //   });
+    // };
+
+    //=======================================================
+
     return (
       <>
-        <body className={classes.body}>
-          <div className={classes.cartContainer}>
-            <div className={classes.header}>
-              <h5 className={classes.heading}>Shopping Cart</h5>
-              <h5 className={classes.action}>Remove all</h5>
-            </div>
-
-            {cart &&
-              cart.products.map((product) => {
-                return (
-                  <div key={product.product_id}>
-                    <div className={classes.cartItems}>
-                      <div className={classes.about}>
-                        <h1 className={classes.title}>
-                          {product.product_name}
-                        </h1>
-                        <h3 className={classes.subtitle}></h3>
-                        {/* <img src={product.image}></img> */}
-                      </div>
-                      <div className={classes.counter}>
-                        <button className={classes.btn}>+</button>
-                        <h4 className={classes.count}>
-                          {" "}
-                          Qty: {product.quantity}{" "}
-                        </h4>
-                        <button className={classes.btn}>-</button>
-                        <h3 className={classes.prices}>$ {product.price}</h3>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            {cart.products.length === 0 && (
-              <div> No items currently in the cart. </div>
-            )}
-          </div>
-        </body>
+        <h3 className={classes.header}>Shopping Cart</h3>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow className={classes.row}>
+                <TableCell>Product</TableCell>
+                <TableCell align="right">Qty.</TableCell>
+                <TableCell align="right">@</TableCell>
+                <TableCell align="right">Price</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {cart.products &&
+                cart.products.map((product) => (
+                  <TableRow key={product.product_id}>
+                    <TableCell>{product.product_name}</TableCell>
+                    <TableCell align="right">
+                      <select name="quantity">
+                        {product.quantity === 1 ? (
+                          <option value="1" selected>
+                            1
+                          </option>
+                        ) : (
+                          <option value="1">1</option>
+                        )}
+                        {product.quantity === 2 ? (
+                          <option value="2" selected>
+                            2
+                          </option>
+                        ) : (
+                          <option value="2">2</option>
+                        )}
+                        {product.quantity === 3 ? (
+                          <option value="3" selected>
+                            3
+                          </option>
+                        ) : (
+                          <option value="3">3</option>
+                        )}
+                        {product.quantity === 4 ? (
+                          <option value="4" selected>
+                            4
+                          </option>
+                        ) : (
+                          <option value="4">4</option>
+                        )}
+                        {product.quantity === 5 ? (
+                          <option value="5" selected>
+                            5
+                          </option>
+                        ) : (
+                          <option value="5">5</option>
+                        )}
+                      </select>
+                      <IconButton>
+                        <DeleteForeverIcon
+                        // onClick={deleteProductFromCart(product.id)}
+                        ></DeleteForeverIcon>
+                      </IconButton>
+                    </TableCell>
+                    <TableCell align="right">{product.price}</TableCell>
+                    <TableCell align="right">
+                      {ccyFormat(product.price * product.quantity)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              <TableRow>
+                <TableCell rowSpan={3} />
+                <TableCell colSpan={2}>Subtotal</TableCell>
+                <TableCell align="right">{ccyFormat(subtotal)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Tax</TableCell>
+                <TableCell align="right">{`${(TAX_RATE * 100).toFixed(
+                  0
+                )} %`}</TableCell>
+                <TableCell align="right">{ccyFormat(taxes)}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={2}>Total</TableCell>
+                <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Paper>
       </>
     );
   };
 
-  return <Basket></Basket>;
+  return (
+    <div>
+      <Basket></Basket>
+    </div>
+  );
 };
 
 export default Cart;

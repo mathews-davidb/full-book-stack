@@ -30,26 +30,31 @@ const ProductPage = (props) => {
   const addItemToCart = async (e) => {
     e.preventDefault();
     const product_id = window.location.pathname.substring(10);
-    console.log(product_id, quantity);
-    const response = await fetch(
-      `${baseUrl}/orders/${props.cart.id}/products`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${props.token}`,
-        },
-        body: JSON.stringify({
-          product_id: product_id,
-          quantity: quantity,
-        }),
+
+    if (props.user) {
+      const response = await fetch(
+        `${baseUrl}/orders/${props.cart.id}/products`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${props.token}`,
+          },
+          body: JSON.stringify({
+            product_id: product_id,
+            quantity: quantity,
+          }),
+        }
+      );
+      const info = await response.json();
+      if (info.error) {
+        console.log(info.error);
+        return setErrorMessage(info.error);
       }
-    );
-    const info = await response.json();
-    console.log(info);
-    if (info.error) {
-      console.log(info.error);
-      return setErrorMessage(info.error);
+    } else {
+      const response = await fetch(`${baseUrl}/products/${props.cart.id}`);
+      const product = await response.json();
+      console.log(product);
     }
   };
 

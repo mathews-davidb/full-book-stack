@@ -84,7 +84,6 @@ const getCart = async (user_id) => {
     );
 
     const cart = resp.rows[0];
-    console.log(cart);
     if (!cart) {
       return;
     }
