@@ -24,7 +24,6 @@ const ProductCategory = (props) => {
     console.log(url);
     const resp = await fetch(url);
     const info = await resp.json();
-    console.log(info);
     setBooks(info);
   };
 
@@ -34,7 +33,7 @@ const ProductCategory = (props) => {
 
   return (
     <>
-      <h1>All Books</h1>
+      <h1 style={{ textAlign: "center" }}>All Books</h1>
       <Container>
         <Grid container spacing={2}>
           {books.map((book) => (
@@ -48,14 +47,10 @@ const ProductCategory = (props) => {
                     <CardMedia
                       component="img"
                       image={book.image}
-                      // height='200px'
+                      // height="200px"
                     />
                     <br></br>
                     <Typography align="center"> {book.name}</Typography>
-                    <Typography variant="subtitle2">
-                      {" "}
-                      {book.description}
-                    </Typography>
                     <Typography align="right">${book.price}</Typography>
                     {/* <Typography> {book.stock}</Typography> */}
                   </CardContent>

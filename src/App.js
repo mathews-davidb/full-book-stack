@@ -98,7 +98,7 @@ function App() {
         setIsAdmin={setIsAdmin}
         categories={categories}
       ></Navbar>
-      <div style={{ marginTop: "10rem" }}>
+      <div style={{ marginTop: "1rem" }}>
         <Route exact path="/">
           <Home />
         </Route>

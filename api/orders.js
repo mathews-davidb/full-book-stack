@@ -77,6 +77,7 @@ ordersRouter.get("/cart", async (req, res, next) => {
   try {
     const userId = req.user.id;
     const resp = await getCart(userId);
+    console.log(resp);
     res.send(resp);
   } catch (error) {
     console.log(error);

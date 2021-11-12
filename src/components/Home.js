@@ -4,9 +4,10 @@ import { Button } from "@mui/material";
 
 const Home = (props) => {
   return (
-    <>
-      <h1>Home</h1>
-    </>
+    <div class="home-page">
+      <div class="mover-1"></div>
+      <div class="mover-2"></div>
+    </div>
   );
 };
 
