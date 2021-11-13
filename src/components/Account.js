@@ -1,10 +1,36 @@
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { makeStyles } from "@mui/styles";
 import baseUrl from "../api";
 import "./Components.css";
 
+const TAX_RATE = 0.07;
+
+const useStyles = makeStyles({
+  header: {
+    marginLeft: "2rem",
+  },
+  root: {
+    width: "60%",
+    marginTop: "50px",
+    overflowX: "auto",
+    marginLeft: "30px",
+  },
+  row: {
+    backgroundColor: "#8fc1e3",
+  },
+});
+
 const Account = (props) => {
   const [orders, setOrders] = useState([]);
+  const classes = useStyles();
 
   const getMyOrders = async () => {
     const resp = await fetch(`${baseUrl}/orders/me`, {
@@ -14,6 +40,7 @@ const Account = (props) => {
       },
     });
     const info = await resp.json();
+    console.log(info);
     setOrders(info);
   };
 
@@ -24,34 +51,63 @@ const Account = (props) => {
     getMyOrders();
   }, [props.user]);
 
+  function ccyFormat(num) {
+    return `${Number(num).toFixed(2)}`;
+  }
+
+  let subtotal = 0;
+
+  for (let product of orders) {
+    subtotal = product.price * product.quantity + subtotal;
+  }
+
+  const taxes = subtotal * TAX_RATE;
+  const invoiceTotal = subtotal + taxes;
+
   return (
     <>
-      <h1>Account</h1>
-
-      <h2>Purchased Orders</h2>
-      {orders.length === 0 && <div> You do not have any past orders. </div>}
-      {orders && (
-        <div>
-          {orders.map((order) => {
-            return (
-              <div key={order.id}>
-                <h3>{order.id}</h3>
-                <div>
+      <div className={classes.header}>
+        <h1>My Account</h1>
+        <h3>Purchased Orders</h3>
+      </div>
+      <Paper className={classes.root}>
+        {orders &&
+          orders.map((order) => (
+            <div key={order.id}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow className={classes.row}>
+                    <TableCell>Product</TableCell>
+                    <TableCell align="left">Qty.</TableCell>
+                    <TableCell align="right">@</TableCell>
+                    <TableCell align="right">Price</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   {order.products.map((product) => {
                     return (
-                      <div key={product.product_id}>
-                        <div> {product.product_name}</div>
-                        <div>{product.price}</div>
-                        <div>{product.quantity}</div>
-                      </div>
+                      <TableRow key={product.product_id}>
+                        <TableCell>{product.product_name}</TableCell>
+                        <TableCell>{product.quantity}</TableCell>
+                        <TableCell align="right">{product.price}</TableCell>
+                        <TableCell align="right">
+                          {ccyFormat(product.price * product.quantity)}
+                        </TableCell>
+                      </TableRow>
                     );
                   })}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+                  <TableRow>
+                    <TableCell rowSpan={3} />
+                    <TableCell colSpan={2}>Total</TableCell>
+                    <TableCell align="right">
+                      {ccyFormat(invoiceTotal)}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          ))}
+      </Paper>
     </>
   );
 };
