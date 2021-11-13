@@ -61,7 +61,6 @@ const Login = (props) => {
       console.log(info.error);
       return setErrorMessage(info.error);
     }
-    console.log("working");
     localStorage.setItem("token", info.token);
 
     setIsLoggedIn(true);
@@ -75,7 +74,6 @@ const Login = (props) => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 18,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

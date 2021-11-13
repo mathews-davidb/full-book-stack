@@ -21,6 +21,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [cart, setCart] = useState([]);
 
+  //============================================================
   const getUser = async () => {
     if (!token) {
       return;
@@ -36,6 +37,8 @@ function App() {
     setUser(info);
   };
 
+  //============================================================
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -43,9 +46,13 @@ function App() {
     }
   }, []);
 
+  //============================================================
+
   useEffect(() => {
     getUser();
   }, [token]);
+
+  //============================================================
 
   useEffect(() => {
     if (user) {
@@ -53,16 +60,38 @@ function App() {
     }
   }, [user]);
 
+  //============================================================
+
   const getMyCart = async () => {
-    const resp = await fetch(`${baseUrl}/orders/cart`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const info = await resp.json();
-    setCart(info);
+    if (user) {
+      const resp = await fetch(`${baseUrl}/orders/cart`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const info = await resp.json();
+      setCart(info);
+    } else {
+      const products = JSON.parse(localStorage.getItem("localCart"));
+      console.log(products);
+      if (products) {
+        setCart({
+          products: products.map((product) => ({
+            id: null,
+            order_id: null,
+            product_id: product.id,
+            product_name: product.name,
+            product_image: product.image,
+            price: product.price,
+            quantity: product.quantity,
+          })),
+        });
+      }
+    }
   };
+
+  //============================================================
 
   useEffect(() => {
     if (!user) {
@@ -71,9 +100,7 @@ function App() {
     getMyCart();
   }, [user]);
 
-  console.log(cart);
-
-  //---------------------------------------------------------
+  //============================================================
 
   const getCategories = async () => {
     const response = await fetch(`${baseUrl}/categories`);
@@ -85,7 +112,7 @@ function App() {
     getCategories();
   }, []);
 
-  //---------------------------------------------------------
+  //============================================================
 
   return (
     <div className="App">
@@ -103,7 +130,7 @@ function App() {
           <Home />
         </Route>
         <Route exact path="/cart">
-          <Cart user={user} token={token} cart={cart} />
+          <Cart user={user} token={token} cart={cart} getMyCart={getMyCart} />
         </Route>
         <Route exact path="/account">
           <Account token={token} user={user} />
@@ -125,7 +152,12 @@ function App() {
           <Admin token={token} user={user} categories={categories} />
         </Route>
         <Route exact path="/products/:id">
-          <ProductPage cart={cart} user={user} token={token} />
+          <ProductPage
+            cart={cart}
+            user={user}
+            token={token}
+            getMyCart={getMyCart}
+          />
         </Route>
         <Route exact path="/products/category/:name">
           <ProductCategory />

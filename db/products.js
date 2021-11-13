@@ -10,15 +10,16 @@ const createProduct = async ({
   category,
   author,
   image,
+  publisher,
 }) => {
   try {
     const resp = await client.query(
       `
-                  INSERT INTO products(name, description, price, stock, category, author, image)
-                  VALUES ($1, $2, $3 ,$4, $5, $6, $7)
+                  INSERT INTO products(name, description, price, stock, category, author, image, publisher)
+                  VALUES ($1, $2, $3 ,$4, $5, $6, $7, $8)
                   RETURNING *
                   `,
-      [name, description, price, stock, category, author, image]
+      [name, description, price, stock, category, author, image, publisher]
     );
     const product = resp.rows[0];
     return product;
@@ -64,6 +65,7 @@ async function updateProduct({
   category,
   author,
   image,
+  publisher,
 }) {
   try {
     if (name) {
@@ -124,6 +126,16 @@ async function updateProduct({
               where id=$1
               `,
         [id, author]
+      );
+    }
+    if (publisher) {
+      await client.query(
+        `
+              UPDATE products
+              SET publisher=$2
+              where id=$1
+              `,
+        [id, publisher]
       );
     }
     if (image) {

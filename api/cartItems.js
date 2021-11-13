@@ -8,6 +8,7 @@ cartItemsRouter.patch("/:cartItemId", async (req, res) => {
   const { quantity } = req.body;
   const id = req.params.cartItemId;
 
+  console.log(quantity, id);
   const updated = await updateCartItem({
     id,
     quantity,

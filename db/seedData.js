@@ -10,9 +10,9 @@ const axios = require("axios");
 async function dropTables() {
   try {
     await client.query(`
-    DROP TABLE IF EXISTS cart_items;  
+    DROP TABLE IF EXISTS cart_items;
     DROP TABLE IF EXISTS orders;
-    DROP TABLE IF EXISTS users;  
+    DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS categories;
     `);
@@ -31,10 +31,11 @@ async function createTables() {
     CREATE TABLE products (
       id SERIAL PRIMARY KEY,
       name VARCHAR(255) UNIQUE NOT NULL,
-      description VARCHAR(255),
+      description VARCHAR(10000),
       author VARCHAR(255) NOT NULL,
+      publisher VARCHAR (255),
       price DECIMAL NOT NULL,
-      image VARCHAR(255),
+      image VARCHAR(3000) UNIQUE,
       stock INTEGER NOT NULL,
       category VARCHAR(255) REFERENCES categories(name) ON DELETE CASCADE
     );
@@ -48,6 +49,8 @@ async function createTables() {
     CREATE TABLE orders (
       id SERIAL PRIMARY KEY,
       user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      total DECIMAL DEFAULT 0.00,
+      date DATE DEFAULT NULL,
       is_purchase BOOLEAN DEFAULT false
     );
     CREATE TABLE cart_items (
@@ -55,6 +58,7 @@ async function createTables() {
         order_id INTEGER REFERENCES orders(id) ON DELETE CASCADE,
         product_id INTEGER REFERENCES products(id),
         product_name VARCHAR(255) REFERENCES products(name),
+        product_image VARCHAR(3000) REFERENCES products(image),
         price DECIMAL NOT NULL,
         quantity INTEGER NOT NULL,
         UNIQUE(product_id, order_id)
@@ -78,7 +82,26 @@ async function seedValues() {
   }
 }
 
-createUser({ email: "email", name: "Test", password: "password" });
+createUser({
+  email: "david@me.com",
+  name: "David Mathews",
+  password: "password",
+});
+createUser({
+  email: "josue@me.com",
+  name: "Josue Vado",
+  password: "password",
+});
+createUser({
+  email: "leslie@me.com",
+  name: "Leslie Bradford",
+  password: "password",
+});
+createUser({
+  email: "daniel@me.com",
+  name: "Daniel Schneider",
+  password: "password",
+});
 
 const sleep = (time) => {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -120,7 +143,7 @@ const seedProducts = async () => {
             createCategory("Business");
             categoryName = "Business";
           } else createCategory(category.display_name);
-          await sleep(10000);
+          await sleep(5000);
           axios
             .get(
               `https://api.nytimes.com/svc/books/v3/lists/${category.list_name_encoded}.json?api-key=bYXKRa8vHpJZn0WEWdSrD1pK74e6AjEp`
@@ -136,6 +159,7 @@ const seedProducts = async () => {
                   description: book.description,
                   price: price,
                   stock: 100,
+                  publisher: book.publisher,
                   category: categoryName,
                   author: book.author,
                   image: book.book_image,
