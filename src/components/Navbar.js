@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Components.css";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -14,9 +14,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const searchSubmit = (e) => {
+    const lowercaseSearch = props.searchTerm.toLowerCase();
+    history.push(`/products/search/${lowercaseSearch}`);
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -61,6 +67,7 @@ const Navbar = (props) => {
           </div>
           <div className="center">
             <form
+              onSubmit={searchSubmit}
               style={{
                 width: "100%",
                 display: "flex",
@@ -68,6 +75,9 @@ const Navbar = (props) => {
               }}
             >
               <input
+                onChange={(e) => {
+                  props.setSearchTerm(e.target.value);
+                }}
                 type="text"
                 placeholder="Search"
                 style={{

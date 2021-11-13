@@ -35,7 +35,6 @@ const useStyles = makeStyles({
 
 const Cart = (props) => {
   const cart = props.cart;
-  console.log(cart);
   const [updatedProduct, setUpdatedProduct] = useState({
     productId: "",
     quantity: "",
@@ -57,12 +56,22 @@ const Cart = (props) => {
   //=======================================================
 
   const deleteProductFromCart = async (productId) => {
-    await fetch(`${baseUrl}/cartItems/${productId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${props.token}`,
-      },
-    });
+    console.log(productId);
+    if (props.user) {
+      await fetch(`${baseUrl}/cartItems/${productId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      });
+    } else {
+      console.log(productId);
+      let localCart = JSON.parse(localStorage.getItem("localCart"));
+      console.log(localCart);
+      localCart.filter((cartItem) => cartItem.id !== productId);
+
+      console.log(localCart);
+    }
     props.getMyCart();
   };
 

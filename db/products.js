@@ -256,6 +256,29 @@ async function getProductByCategory(category) {
 
 //==========================================================
 
+async function searchProducts(searchTerm) {
+  searchTerm = `%${searchTerm}%`;
+  try {
+    const resp = await client.query(
+      `
+                SELECT *
+                FROM products
+                WHERE  lower(name || description || author || category) LIKE $1 
+               
+
+              `,
+      [searchTerm]
+    );
+    const product = resp.rows;
+
+    return product;
+  } catch (error) {
+    throw error;
+  }
+}
+
+//==========================================================
+
 module.exports = {
   createProduct,
   getAllProducts,
@@ -264,4 +287,5 @@ module.exports = {
   deleteProduct,
   getProductByName,
   getProductByCategory,
+  searchProducts,
 };

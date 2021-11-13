@@ -8,6 +8,7 @@ const {
   getProductById,
   getProductByName,
   getProductByCategory,
+  searchProducts,
 } = require("../db/products");
 
 const productsRouter = express.Router();
@@ -130,6 +131,14 @@ productsRouter.get("/:productId", async (req, res) => {
   const id = req.params.productId;
   const product = await getProductById(id);
   res.send(product);
+});
+
+//==========================================================
+
+productsRouter.get("/search/:searchterm", async (req, res) => {
+  const searchTerm = req.params.searchterm;
+  const products = await searchProducts(searchTerm);
+  res.send(products);
 });
 
 //==========================================================

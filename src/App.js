@@ -12,6 +12,7 @@ import Navbar from "./components/Navbar";
 import ProductCategory from "./components/ProductCategory";
 import ProductPage from "./components/ProductPage";
 import Register from "./components/Register";
+import SearchResult from "./components/SearchResult";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -20,6 +21,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]);
   const [cart, setCart] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   //============================================================
   const getUser = async () => {
@@ -74,13 +76,12 @@ function App() {
       setCart(info);
     } else {
       const products = JSON.parse(localStorage.getItem("localCart"));
-      console.log(products);
       if (products) {
         setCart({
           products: products.map((product) => ({
             id: null,
             order_id: null,
-            product_id: product.id,
+            product_id: product.product_id,
             product_name: product.name,
             product_image: product.image,
             price: product.price,
@@ -94,11 +95,8 @@ function App() {
   //============================================================
 
   useEffect(() => {
-    if (!user) {
-      return;
-    }
     getMyCart();
-  }, [user]);
+  }, []);
 
   //============================================================
 
@@ -124,6 +122,8 @@ function App() {
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}
         categories={categories}
+        setSearchTerm={setSearchTerm}
+        searchTerm={searchTerm}
       ></Navbar>
       <div style={{ marginTop: "1rem" }}>
         <Route exact path="/">
@@ -161,6 +161,9 @@ function App() {
         </Route>
         <Route exact path="/products/category/:name">
           <ProductCategory />
+        </Route>
+        <Route exact path="/products/search/:searchterm">
+          <SearchResult />
         </Route>
       </div>
     </div>

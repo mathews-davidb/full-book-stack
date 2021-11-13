@@ -47,6 +47,7 @@ const ProductPage = (props) => {
         }
       );
       const info = await response.json();
+      console.log("working");
       props.getMyCart();
       if (info.error) {
         console.log(info.error);
@@ -69,7 +70,7 @@ const ProductPage = (props) => {
       } else {
         let localCart = [
           {
-            id: id,
+            product_id: id,
             name: name,
             price: price,
             image: image,
