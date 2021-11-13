@@ -8,16 +8,28 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import CardActions from "@mui/material/CardActions";
+import { makeStyles } from "@mui/styles";
 import CardMedia from "@mui/material/CardMedia";
 import { useEffect, useState } from "react";
 import baseUrl from "../api";
 import { Link } from "react-router-dom";
 
+const useStyles = makeStyles({
+  body: {
+    backgroundColor: "#d1d7e0",
+  },
+  card: {
+    height: "auto",
+    backgroundColor: "#f7f9fb",
+  },
+});
+
 const AllProducts = (props) => {
   const [books, setBooks] = useState([]);
   const [productId, setProductId] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const classes = useStyles();
 
   const getAllBooks = async () => {
     const resp = await fetch(`${baseUrl}/products`);
@@ -48,45 +60,55 @@ const AllProducts = (props) => {
   //   };
 
   return (
-    <>
+    <body className={classes.body}>
       <h1>All Books</h1>
       <Container>
-        <Grid container spacing={2}>
+        <Grid container spacing={3} alignItems="center">
           {books.map((book) => (
             <Grid item key={book.id} xs={12} sm={6} md={3}>
               <Link
                 style={{ textDecoration: "none" }}
                 to={`/products/${book.id}`}
               >
-                <Card raised>
+                <Card raised className={classes.card}>
                   <CardContent>
-                    <CardMedia
-                      component="img"
-                      image={book.image}
-                      // height='200px'
-                    />
-                    <br></br>
-                    <Typography align="center"> {book.name}</Typography>
-                    <Typography align="right">${book.price}</Typography>
-                    {/* <Typography> {book.stock}</Typography> */}
+                    <CardMedia>
+                      <img
+                        src={book.image}
+                        style={{
+                          height: "20em",
+                          width: "14em",
+                          display: "block",
+                          marginLeft: "auto",
+                          marginRigh: "auto",
+                        }}
+                      />
+                    </CardMedia>
                   </CardContent>
-                  <CardActions>
-                    {/* <Button
-                      size="small"
-                      onClick={(e) => {
-                        addToCart(book.id);
-                      }}
-                    >
-                      Add to Cart
-                    </Button> */}
-                  </CardActions>
+                  <Typography
+                    align="center"
+                    variant="body2"
+                    fontWeight="900"
+                    color="#31708e"
+                  >
+                    {" "}
+                    {book.name}
+                  </Typography>
+                  <Typography
+                    align="right"
+                    variant="subtitle1"
+                    padding=".5em"
+                    color="#31708e"
+                  >
+                    ${book.price}
+                  </Typography>
                 </Card>
               </Link>
             </Grid>
           ))}
         </Grid>
       </Container>
-    </>
+    </body>
   );
 };
 

@@ -14,7 +14,6 @@ const Account = (props) => {
       },
     });
     const info = await resp.json();
-    console.log(info);
     setOrders(info);
   };
 

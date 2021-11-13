@@ -11,6 +11,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import baseUrl from "../api";
+import { useEffect, useState } from "react";
 
 const TAX_RATE = 0.07;
 
@@ -34,6 +35,11 @@ const useStyles = makeStyles({
 
 const Cart = (props) => {
   const cart = props.cart;
+  console.log(cart);
+  const [updatedProduct, setUpdatedProduct] = useState({
+    productId: "",
+    quantity: "",
+  });
 
   function ccyFormat(num) {
     return `${Number(num).toFixed(2)}`;
@@ -41,28 +47,49 @@ const Cart = (props) => {
 
   let subtotal = 0;
 
-  for (let product of cart.products) {
-    subtotal = product.price * product.quantity + subtotal;
+  if (cart.products) {
+    for (let product of cart.products) {
+      subtotal = product.price * product.quantity + subtotal;
+    }
   }
-
   const taxes = subtotal * TAX_RATE;
   const invoiceTotal = subtotal + taxes;
+  //=======================================================
+
+  const deleteProductFromCart = async (productId) => {
+    await fetch(`${baseUrl}/cartItems/${productId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${props.token}`,
+      },
+    });
+    props.getMyCart();
+  };
+
+  //=======================================================
+
+  const updateProductInCart = async () => {
+    await fetch(`${baseUrl}/cartItems/${updatedProduct.productId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${props.token}`,
+      },
+      body: JSON.stringify({
+        quantity: updatedProduct.quantity,
+      }),
+    });
+    props.getMyCart();
+  };
+
+  useEffect(() => {
+    updateProductInCart();
+  }, [updatedProduct]);
+
+  //=======================================================
 
   const Basket = () => {
     const classes = useStyles();
-
-    //=======================================================
-
-    // const deleteProductFromCart = async (productId) => {
-    //   await fetch(`${baseUrl}/cartItems/${productId}`, {
-    //     method: "DELETE",
-    //     headers: {
-    //       Authorization: `Bearer ${props.token}`,
-    //     },
-    //   });
-    // };
-
-    //=======================================================
 
     return (
       <>
@@ -78,12 +105,25 @@ const Cart = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {(!cart.products ||
+                (cart.products && cart.products.length === 0)) && (
+                <div>There are no items in the cart.</div>
+              )}
               {cart.products &&
+                cart.products.length > 0 &&
                 cart.products.map((product) => (
                   <TableRow key={product.product_id}>
                     <TableCell>{product.product_name}</TableCell>
                     <TableCell align="right">
-                      <select name="quantity">
+                      <select
+                        name="quantity"
+                        onChange={(e) => {
+                          setUpdatedProduct({
+                            productId: product.id,
+                            quantity: e.target.value,
+                          });
+                        }}
+                      >
                         {product.quantity === 1 ? (
                           <option value="1" selected>
                             1
@@ -122,7 +162,7 @@ const Cart = (props) => {
                       </select>
                       <IconButton>
                         <DeleteForeverIcon
-                        // onClick={deleteProductFromCart(product.id)}
+                          onClick={() => deleteProductFromCart(product.id)}
                         ></DeleteForeverIcon>
                       </IconButton>
                     </TableCell>

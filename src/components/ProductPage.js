@@ -14,7 +14,7 @@ import { ThumbUp } from "@mui/icons-material";
 
 const ProductPage = (props) => {
   const [book, setBook] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState("1");
   const [errorMessage, setErrorMessage] = useState("");
 
   const getBookInfo = async () => {
@@ -47,15 +47,44 @@ const ProductPage = (props) => {
         }
       );
       const info = await response.json();
+      props.getMyCart();
       if (info.error) {
         console.log(info.error);
         return setErrorMessage(info.error);
       }
     } else {
-      const response = await fetch(`${baseUrl}/products/${props.cart.id}`);
-      const product = await response.json();
-      console.log(product);
+      const response = await fetch(`${baseUrl}/products/${product_id}`);
+      const { id, price, name, image } = await response.json();
+
+      if (localStorage.getItem("localCart")) {
+        let localCart = JSON.parse(localStorage.getItem("localCart"));
+        localCart.push({
+          id: id,
+          name: name,
+          price: price,
+          image: image,
+          quantity: quantity,
+        });
+        localStorage.setItem("localCart", JSON.stringify(localCart));
+      } else {
+        let localCart = [
+          {
+            id: id,
+            name: name,
+            price: price,
+            image: image,
+            quantity: quantity,
+          },
+        ];
+        localStorage.setItem("localCart", JSON.stringify(localCart));
+      }
+      props.getMyCart();
     }
+  };
+
+  const test = () => {
+    const newCart = localStorage.getItem("localCart");
+    console.log(newCart);
   };
 
   return (
@@ -92,7 +121,9 @@ const ProductPage = (props) => {
                 setQuantity(e.target.value);
               }}
             >
-              <option value="1">1</option>
+              <option value="1" selected>
+                1
+              </option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
@@ -106,6 +137,7 @@ const ProductPage = (props) => {
             <br></br>
             <button>Add to Cart</button>
           </form>
+          <button onClick={test}>Test</button>
         </div>
       </div>
     </div>

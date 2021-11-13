@@ -26,7 +26,8 @@ productsRouter.get("/", async (req, res) => {
 //==========================================================
 
 productsRouter.post("/", upload.single("image"), async (req, res, next) => {
-  const { name, description, price, stock, category, author } = req.body;
+  const { name, description, price, stock, category, author, publisher } =
+    req.body;
   const image = req.file.filename;
   if (
     !name ||
@@ -35,7 +36,8 @@ productsRouter.post("/", upload.single("image"), async (req, res, next) => {
     !stock ||
     !category ||
     !author ||
-    !image
+    !image ||
+    !publisher
   ) {
     return next({ error: "Missing input field" });
   }
@@ -53,6 +55,7 @@ productsRouter.post("/", upload.single("image"), async (req, res, next) => {
     category,
     author,
     image,
+    publisher,
   });
   console.log(newProduct);
   res.send(newProduct);
@@ -62,7 +65,16 @@ productsRouter.post("/", upload.single("image"), async (req, res, next) => {
 
 productsRouter.patch("/:productId", async (req, res, next) => {
   const id = req.params.productId;
-  const { name, description, price, stock, category, author, image } = req.body;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    category,
+    author,
+    image,
+    publisher,
+  } = req.body;
   if (
     !name &&
     !description &&
@@ -70,7 +82,8 @@ productsRouter.patch("/:productId", async (req, res, next) => {
     !stock &&
     !category &&
     !author &&
-    !image
+    !image &&
+    !publisher
   ) {
     return next({ error: "At least one input field must be filled out" });
   }
@@ -89,6 +102,7 @@ productsRouter.patch("/:productId", async (req, res, next) => {
     category,
     author,
     image,
+    publisher,
   });
   res.send(editProduct);
 });
