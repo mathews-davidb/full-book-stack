@@ -48,19 +48,20 @@ ordersRouter.patch("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const user_id = req.user.id;
+    const { total, date } = req.body;
+    console.log(total, date);
     const cart = await getCart(user_id);
     const products = cart.products;
 
     for (let product of products) {
       const quantity = product.quantity;
-      //   console.log(quantity, product.product_id);
       const productInfo = await getProductById(product.product_id);
       let stock = productInfo.stock;
       stock = productInfo.stock - quantity;
       await updateProduct({ id: product.product_id, stock: stock });
     }
 
-    const orderUpdate = await updateOrder(id);
+    const orderUpdate = await updateOrder(id, total, date);
     createOrder(user_id);
     res.send(orderUpdate);
   } catch (error) {
@@ -93,7 +94,14 @@ ordersRouter.post("/:id/products", async (req, res, next) => {
   try {
     const order_id = req.params.id;
     const { product_id, quantity } = req.body;
-    console.log(order_id, product_id, quantity);
+    console.log(
+      "order id:",
+      order_id,
+      "product id:",
+      product_id,
+      "quantity:",
+      quantity
+    );
     const resp = await addCartItem({
       order_id,
       product_id,

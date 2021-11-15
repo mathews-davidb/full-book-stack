@@ -99,9 +99,7 @@ const Account = (props) => {
                   <TableRow>
                     <TableCell rowSpan={3} />
                     <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell align="right">
-                      {ccyFormat(invoiceTotal)}
-                    </TableCell>
+                    <TableCell align="right">{order.total}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>

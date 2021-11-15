@@ -43,7 +43,7 @@ const SearchResult = (props) => {
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>All Books</h1>
+      <h1 style={{ textAlign: "center" }}>Search Results</h1>
       {!books && <div>No results for this search.</div>}
       <Container>
         <Grid container spacing={3} alignItems="center">

@@ -1,5 +1,6 @@
 import "./Components.css";
 import {
+  Button,
   IconButton,
   Paper,
   Table,
@@ -12,6 +13,7 @@ import { makeStyles } from "@mui/styles";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import baseUrl from "../api";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 
 const TAX_RATE = 0.07;
 
@@ -20,13 +22,14 @@ const useStyles = makeStyles({
     marginLeft: "30px",
   },
   root: {
-    width: "60%",
-    marginTop: "50px",
+    maxWidth: "800px",
+    marginTop: "3em",
     overflowX: "auto",
-    marginLeft: "30px",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   table: {
-    minWidth: 700,
+    minWidth: 500,
   },
   row: {
     backgroundColor: "#8fc1e3",
@@ -35,6 +38,7 @@ const useStyles = makeStyles({
 
 const Cart = (props) => {
   const cart = props.cart;
+  const history = useHistory();
   const [updatedProduct, setUpdatedProduct] = useState({
     productId: "",
     quantity: "",
@@ -55,8 +59,7 @@ const Cart = (props) => {
   const invoiceTotal = subtotal + taxes;
   //=======================================================
 
-  const deleteProductFromCart = async (productId) => {
-    console.log(productId);
+  const deleteProductFromCart = async (productId, localProductId) => {
     if (props.user) {
       await fetch(`${baseUrl}/cartItems/${productId}`, {
         method: "DELETE",
@@ -65,30 +68,48 @@ const Cart = (props) => {
         },
       });
     } else {
-      console.log(productId);
       let localCart = JSON.parse(localStorage.getItem("localCart"));
-      console.log(localCart);
-      localCart.filter((cartItem) => cartItem.id !== productId);
-
-      console.log(localCart);
+      for (let i = 0; i < localCart.length; i++) {
+        if (localCart[i].product_id === localProductId) {
+          localCart.splice(i, 1);
+          localStorage.setItem("localCart", JSON.stringify(localCart));
+          break;
+        }
+      }
     }
+    console.log("working");
     props.getMyCart();
   };
 
   //=======================================================
 
-  const updateProductInCart = async () => {
-    await fetch(`${baseUrl}/cartItems/${updatedProduct.productId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${props.token}`,
-      },
-      body: JSON.stringify({
-        quantity: updatedProduct.quantity,
-      }),
-    });
-    props.getMyCart();
+  const updateProductInCart = async (localProductId) => {
+    if (props.user) {
+      await fetch(`${baseUrl}/cartItems/${updatedProduct.productId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${props.token}`,
+        },
+        body: JSON.stringify({
+          quantity: updatedProduct.quantity,
+        }),
+      });
+    } else {
+      if (localStorage.getItem("localCart")) {
+        let localCart = JSON.parse(localStorage.getItem("localCart"));
+        for (let i = 0; i < localCart.length; i++) {
+          console.log(localCart[i].product_id, updatedProduct.localProductId);
+          if (localCart[i].product_id === updatedProduct.localProductId) {
+            localCart[i].quantity = updatedProduct.quantity;
+            localStorage.setItem("localCart", JSON.stringify(localCart));
+            break;
+          }
+        }
+      }
+      console.log("working");
+      props.getMyCart();
+    }
   };
 
   useEffect(() => {
@@ -102,7 +123,7 @@ const Cart = (props) => {
 
     return (
       <>
-        <h3 className={classes.header}>Shopping Cart</h3>
+        <h1 style={{ textAlign: "center" }}>Shopping Cart</h1>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -116,19 +137,34 @@ const Cart = (props) => {
             <TableBody>
               {(!cart.products ||
                 (cart.products && cart.products.length === 0)) && (
-                <div>There are no items in the cart.</div>
+                <div
+                  style={{
+                    marginLeft: "1em",
+                    marginTop: "1em",
+                    fontSize: "1.2em",
+                  }}
+                >
+                  There are no items in the cart.
+                </div>
               )}
               {cart.products &&
                 cart.products.length > 0 &&
                 cart.products.map((product) => (
                   <TableRow key={product.product_id}>
-                    <TableCell>{product.product_name}</TableCell>
+                    <TableCell>
+                      <img
+                        src={`${product.product_image}`}
+                        style={{ height: "5em", marginRight: "1em" }}
+                      />
+                      {product.product_name}
+                    </TableCell>
                     <TableCell align="right">
                       <select
                         name="quantity"
                         onChange={(e) => {
                           setUpdatedProduct({
                             productId: product.id,
+                            localProductId: product.product_id,
                             quantity: e.target.value,
                           });
                         }}
@@ -171,7 +207,12 @@ const Cart = (props) => {
                       </select>
                       <IconButton>
                         <DeleteForeverIcon
-                          onClick={() => deleteProductFromCart(product.id)}
+                          onClick={() =>
+                            deleteProductFromCart(
+                              product.id,
+                              product.product_id
+                            )
+                          }
                         ></DeleteForeverIcon>
                       </IconButton>
                     </TableCell>
@@ -200,6 +241,26 @@ const Cart = (props) => {
             </TableBody>
           </Table>
         </Paper>
+        <Button
+          style={{
+            marginTop: "2em",
+            height: "56px",
+            justifyContent: "center",
+          }}
+          onClick={() => {
+            if (props.cart.products.length > 0) {
+              if (props.user) {
+                history.push("/checkout");
+              } else {
+                history.push("/checkout-redirect");
+              }
+            }
+          }}
+          type="submit"
+          variant="contained"
+        >
+          Proceed to Checkout
+        </Button>
       </>
     );
   };

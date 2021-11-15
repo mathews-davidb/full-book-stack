@@ -191,6 +191,7 @@ const Admin = (props) => {
             <TableHead>
               <TableRow>
                 <TableCell>Name</TableCell>
+                <TableCell align="left">ID No.</TableCell>
                 <TableCell align="left">Email</TableCell>
                 <TableCell align="center">Admin?</TableCell>
               </TableRow>
@@ -204,6 +205,7 @@ const Admin = (props) => {
                   <TableCell component="th" scope="row">
                     {user.name}
                   </TableCell>
+                  <TableCell align="left">{user.id}</TableCell>
                   <TableCell align="left">{user.email}</TableCell>
                   <TableCell align="center">
                     {user.is_admin ? "Yes" : "No"}

@@ -19,15 +19,16 @@ const createOrder = async (userId) => {
 
 //==========================================================
 
-const updateOrder = async (id) => {
+const updateOrder = async (id, total, date) => {
+  console.log(id, total, date);
   const resp = await client.query(
     `
           UPDATE orders 
-          SET is_purchase = true
+          SET is_purchase = true, total = $2, date = $3
           WHERE id = $1
           RETURNING *;
           `,
-    [id]
+    [id, total, date]
   );
   const order = resp.rows[0];
   return order;
