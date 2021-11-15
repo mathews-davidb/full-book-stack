@@ -60,6 +60,7 @@ const Register = (props) => {
       }),
     });
     const info = await response.json();
+    console.log(info);
 
     if (info.error) {
       return setErrorMessage(info.error);
@@ -68,7 +69,7 @@ const Register = (props) => {
     localStorage.setItem("token", info.token);
     setToken(info.token);
     props.setIsLoggedIn(true);
-    history.push("./home");
+    history.push("./");
   };
 
   return (

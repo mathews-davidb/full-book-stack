@@ -1,11 +1,15 @@
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Route } from "react-router";
+import { Link } from "react-router-dom";
 import baseUrl from "./api";
 import "./App.css";
 import Account from "./components/Account";
 import Admin from "./components/Admin";
 import AllProducts from "./components/AllProducts";
 import Cart from "./components/Cart";
+import CheckoutForm from "./components/Checkout";
+import CheckoutRedirect from "./components/CheckoutRedirect";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -20,8 +24,24 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+
+  //============================================================
+  function Copyright(props) {
+    return (
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        align="center"
+        {...props}
+      >
+        {"Copyright © "}
+        <Link to="/">FULL BOOKSTACK</Link> {new Date().getFullYear()}
+        {"."}
+      </Typography>
+    );
+  }
 
   //============================================================
   const getUser = async () => {
@@ -73,6 +93,7 @@ function App() {
         },
       });
       const info = await resp.json();
+      console.log(info);
       setCart(info);
     } else {
       const products = JSON.parse(localStorage.getItem("localCart"));
@@ -96,7 +117,32 @@ function App() {
 
   useEffect(() => {
     getMyCart();
-  }, []);
+    console.log(cart);
+  }, [user]);
+
+  //============================================================
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("localCart")) {
+  //     let localCart = JSON.parse(localStorage.getItem("localCart"));
+  //     for (let i = 0; i < localCart.length; i++) {
+  //       const response = fetch(`${baseUrl}/orders/${cart.id}/products`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         body: JSON.stringify({
+  //           product_id: localCart[i].product_id,
+  //           quantity: localCart[i].quantity,
+  //         }),
+  //       });
+  //       const info = response.json();
+  //     }
+  //     localStorage.setItem("localCart", "");
+  //     getMyCart();
+  //   }
+  // }, [cart.id]);
 
   //============================================================
 
@@ -124,6 +170,7 @@ function App() {
         categories={categories}
         setSearchTerm={setSearchTerm}
         searchTerm={searchTerm}
+        setCart={setCart}
       ></Navbar>
       <div style={{ marginTop: "1rem" }}>
         <Route exact path="/">
@@ -143,7 +190,13 @@ function App() {
           />
         </Route>
         <Route exact path="/register">
-          <Register setToken={setToken} setIsLoggedIn={setIsLoggedIn} />
+          <Register
+            setToken={setToken}
+            setIsLoggedIn={setIsLoggedIn}
+            getUser={getUser}
+            user={user}
+            getMyCart={getMyCart}
+          />
         </Route>
         <Route exact path="/products">
           <AllProducts />
@@ -165,7 +218,21 @@ function App() {
         <Route exact path="/products/search/:searchterm">
           <SearchResult />
         </Route>
+        <Route exact path="/checkout">
+          <CheckoutForm />
+        </Route>
+        <Route exact path="/checkout-redirect">
+          <CheckoutRedirect
+            token={token}
+            setToken={setToken}
+            setIsLoggedIn={setIsLoggedIn}
+            getMyCart={getMyCart}
+            getUser={getUser}
+            cart={cart}
+          />
+        </Route>
       </div>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
     </div>
   );
 }

@@ -60,7 +60,7 @@ const ProductPage = (props) => {
       if (localStorage.getItem("localCart")) {
         let localCart = JSON.parse(localStorage.getItem("localCart"));
         localCart.push({
-          id: id,
+          product_id: id,
           name: name,
           price: price,
           image: image,
@@ -81,11 +81,6 @@ const ProductPage = (props) => {
       }
       props.getMyCart();
     }
-  };
-
-  const test = () => {
-    const newCart = localStorage.getItem("localCart");
-    console.log(newCart);
   };
 
   return (
@@ -118,13 +113,12 @@ const ProductPage = (props) => {
           <form onSubmit={addItemToCart} style={{ marginTop: "1em" }}>
             <select
               required
+              defaultValue={1}
               onChange={(e) => {
                 setQuantity(e.target.value);
               }}
             >
-              <option value="1" selected>
-                1
-              </option>
+              <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
@@ -136,9 +130,9 @@ const ProductPage = (props) => {
               <option value="10">10</option>
             </select>{" "}
             <br></br>
+            <br></br>
             <button>Add to Cart</button>
           </form>
-          <button onClick={test}>Test</button>
         </div>
       </div>
     </div>

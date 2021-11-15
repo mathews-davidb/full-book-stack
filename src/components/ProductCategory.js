@@ -40,9 +40,24 @@ const ProductCategory = (props) => {
     getBooksbyCategory();
   }, []);
 
+  let categoryName = window.location.pathname;
+  categoryName =
+    categoryName.substring(19).charAt(0).toUpperCase() +
+    categoryName.substring(19).slice(1);
+  categoryName = categoryName.toString().replace(/%20/g, " ");
+  let words = categoryName.split(" ");
+  for (let i = 0; i < words.length; i++) {
+    if (words[i] !== "and") {
+      words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+    } else {
+      words[i] = words[i];
+    }
+  }
+  categoryName = words.join(" ");
+
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>All Books</h1>
+      <h1 style={{ textAlign: "center" }}>{categoryName}</h1>
       <Container>
         <Grid container spacing={3} alignItems="center">
           {books.map((book) => (
@@ -53,18 +68,12 @@ const ProductCategory = (props) => {
               >
                 <Card raised className={classes.card}>
                   <CardContent>
-                    <CardMedia>
-                      <img
-                        src={book.image}
-                        style={{
-                          height: "20em",
-                          width: "14em",
-                          display: "block",
-                          marginLeft: "auto",
-                          marginRigh: "auto",
-                        }}
-                      />
-                    </CardMedia>
+                    <CardMedia
+                      component="img"
+                      height="340em"
+                      image={book.image}
+                      alt={book.name}
+                    />
                   </CardContent>
                   <Typography
                     align="center"

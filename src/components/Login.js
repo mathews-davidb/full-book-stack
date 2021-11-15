@@ -56,6 +56,7 @@ const Login = (props) => {
       }),
     });
     const info = await response.json();
+    console.log(info);
 
     if (info.error) {
       console.log(info.error);

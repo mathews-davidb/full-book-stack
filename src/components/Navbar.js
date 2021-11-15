@@ -79,21 +79,28 @@ const Navbar = (props) => {
                   props.setSearchTerm(e.target.value);
                 }}
                 type="text"
-                placeholder="Search"
+                placeholder="Search by title, author, etc.."
                 style={{
-                  width: "60%",
-                  height: "1.8em",
+                  width: "80%",
+                  height: "2em",
                   borderRadius: "10px",
-                  fontSize: "1.1em",
+                  fontSize: "1em",
                   outline: "none",
                   border: "none",
                 }}
               ></input>
             </form>
           </div>
-          <div className="center">
+          <div className="center" style={{ marginRight: "2em" }}>
             {props.isAdmin && (
-              <Link to="/admin" style={{ color: "#F7f9fb" }}>
+              <Link
+                to="/admin"
+                style={{
+                  color: "#F7f9fb",
+                  textDecoration: "none",
+                  fontSize: "1.2em",
+                }}
+              >
                 Admin
               </Link>
             )}
@@ -112,7 +119,17 @@ const Navbar = (props) => {
                 </Link>
               </IconButton>
             )}
-
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <Link to="/cart">
+                <ShoppingCartIcon style={{ color: "#F7f9fb" }} />
+              </Link>
+            </IconButton>
             {!props.isLoggedIn && (
               <Link
                 to="/login"
@@ -126,17 +143,6 @@ const Navbar = (props) => {
               </Link>
             )}
 
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <Link to="/cart">
-                <ShoppingCartIcon style={{ color: "#F7f9fb" }} />
-              </Link>
-            </IconButton>
             {props.isLoggedIn && (
               <Link
                 to="/"
@@ -146,6 +152,7 @@ const Navbar = (props) => {
                   props.setUser(null);
                   props.setToken("");
                   props.setIsAdmin(false);
+                  props.setCart({});
                 }}
                 style={{
                   color: "#F7f9fb",
@@ -177,7 +184,6 @@ const Navbar = (props) => {
             >
               <MenuIcon /> All Categories
             </IconButton>
-
             <Menu
               id="basic-menu"
               anchorEl={anchorEl}
@@ -186,85 +192,96 @@ const Navbar = (props) => {
               MenuListProps={{
                 "aria-labelledby": "basic-button",
               }}
+              class="dropdown"
+              style={{ columns: 4 }}
             >
               {props.categories.map((category) => {
                 return (
-                  <MenuItem key={category.id} onClick={handleClose} style={{}}>
-                    <Link
-                      to={"/products/category/" + category.name.toLowerCase()}
-                      style={{ textDecoration: "none", color: "Black" }}
+                  <div class="dropbtn" key={category.id} onClick={handleClose}>
+                    <a
+                      href={"/products/category/" + category.name.toLowerCase()}
+                      style={{
+                        textDecoration: "none",
+                        color: "#111111",
+                        fontSize: "1.2em",
+                      }}
                     >
                       {" "}
                       {category.name}
-                    </Link>
-                  </MenuItem>
+                    </a>
+                  </div>
                 );
               })}
             </Menu>
             <Button color="inherit">
-              <Link
-                to="/products/category/fiction"
+              <a
+                href="/products/category/fiction"
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
                   fontSize: "1.2em",
+                  borderLeft: "white 1px solid",
+                  paddingLeft: "1em",
                 }}
               >
-                {"| "}
                 Fiction
-              </Link>
+              </a>
             </Button>
             <Button color="inherit">
-              <Link
-                to="/products/category/nonfiction"
+              <a
+                href="/products/category/nonfiction"
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
                   fontSize: "1.2em",
+                  borderLeft: "white 1px solid",
+                  paddingLeft: "1em",
                 }}
               >
-                {"| "}
                 Nonfiction
-              </Link>
+              </a>
             </Button>
             <Button color="inherit">
-              <Link
-                to="/products/category/children"
+              <a
+                href="/products/category/children"
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
                   fontSize: "1.2em",
+                  borderLeft: "white 1px solid",
+                  paddingLeft: "1em",
                 }}
               >
-                {"| "}
                 Children
-              </Link>
+              </a>
             </Button>
             <Button color="inherit">
-              <Link
-                to="/products/category/young%20adult"
+              <a
+                href="/products/category/young%20adult"
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
                   fontSize: "1.2em",
+                  borderLeft: "white 1px solid",
+                  paddingLeft: "1em",
                 }}
               >
-                {"| "}
                 Young Adult
-              </Link>
+              </a>
             </Button>
             <Button color="inherit">
-              <Link
-                to="/products/category/travel"
+              <a
+                href="/products/category/travel"
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
                   fontSize: "1.2em",
+                  borderLeft: "white 1px solid",
+                  paddingLeft: "1em",
                 }}
               >
-                {"| "}
                 Travel
-              </Link>
+              </a>
             </Button>
           </div>
         </div>
