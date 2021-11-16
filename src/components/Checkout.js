@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
+import baseUrl from "../api";
 
 const useStyles = makeStyles({
   header: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-function CheckoutForm() {
+function CheckoutForm(props) {
   const classes = useStyles();
   const [billingFirstName, setBillingFirstName] = useState("");
   const [billingLasttName, setBillingLasttName] = useState("");
@@ -42,6 +43,7 @@ function CheckoutForm() {
   const [billingState, setBillingState] = useState("");
   const [billingCountry, setBillingCountry] = useState("");
 
+  const [same, setSame] = useState(false);
   const [shippingFirstName, setshippingFirstName] = useState("");
   const [shippingLasttName, setshippingLasttName] = useState("");
   const [shippingAddresLine1, setshippingAddresLine1] = useState("");
@@ -51,9 +53,35 @@ function CheckoutForm() {
   const [shippingState, setshippingState] = useState("");
   const [shippingCountry, setshippingCountry] = useState("");
 
-  const completeOrder = async () => {};
+  const completeOrder = async () => {
+    console.log(props.cart.id);
+    const response = await fetch(`${baseUrl}/orders/${props.cart.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${props.token}`,
+      },
+      body: JSON.stringify({
+        total: props.total,
+        date: props.purchaseDate,
+      }),
+    });
+    const info = await response.json();
+    console.log("working");
+  };
 
-  const sameAsShipping = () => {};
+  const sameAsShipping = () => {
+    if (same) {
+      setshippingFirstName(billingFirstName);
+      setshippingLasttName(billingLasttName);
+      setshippingAddresLine1(billingAddresLine1);
+      setshippingAddressLine2(billingAddressLine2);
+      setshippingZip(billingZip);
+      setshippingCity(billingCity);
+      setshippingState(billingState);
+      setshippingCountry(billingCountry);
+    }
+  };
 
   return (
     <>
@@ -64,7 +92,7 @@ function CheckoutForm() {
           noValidate
           autoComplete="off"
           className={classes.form}
-          onSubmit={completeOrder}
+          //   onSubmit={completeOrder}
         >
           <span>
             <Typography className={classes.header}>
@@ -166,7 +194,13 @@ function CheckoutForm() {
               Shipping Information
             </Typography>
             <Checkbox
-              onChange={sameAsShipping}
+              onChange={() => {
+                if (same) {
+                  setSame(false);
+                } else {
+                  setSame(true);
+                }
+              }}
               inputProps={{ "aria-label": "controlled" }}
             />
             <Grid container spacing={2}>
@@ -223,6 +257,7 @@ function CheckoutForm() {
           <span>
             <Button
               variant="contained"
+              onClick={completeOrder}
               style={{
                 padding: "1rem",
                 marginLeft: "2rem",

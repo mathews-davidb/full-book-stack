@@ -32,6 +32,7 @@ usersRouter.post("/register", async (req, res, next) => {
       });
     }
     const newUser = await createUser({ email, name, password });
+    console.log(newUser);
     createOrder(newUser.id);
     res.send({ user: newUser });
   } catch (error) {

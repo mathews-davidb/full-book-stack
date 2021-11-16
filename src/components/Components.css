@@ -1,3 +1,31 @@
+/* Style the navbar */
+.header {
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+}
+
+/* Navbar links */
+.header a {
+  text-decoration: none;
+}
+
+/* Page content */
+.content {
+  padding: 16px;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  padding-top: 60px;
+}
+
 .navbar-top {
   position: relative;
   height: 4em;
@@ -42,16 +70,6 @@
   left: 0;
   height: 100%;
   transform: translate3d(0, 0, 0);
-}
-
-.home-page .mover-1 {
-  animation: moveSlideshow 15s linear infinite;
-}
-.home-page .mover-2 {
-  opacity: 0;
-  transition: opacity 0.5s ease-out;
-  background-position: 0 -200px;
-  animation: moveSlideshow 15s linear infinite;
 }
 
 @keyframes moveSlideshow {

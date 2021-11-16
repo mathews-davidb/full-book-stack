@@ -14,6 +14,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import baseUrl from "../api";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import {
+  SettingsOverscanOutlined,
+  SettingsOverscanTwoTone,
+} from "@mui/icons-material";
 
 const TAX_RATE = 0.07;
 
@@ -57,6 +61,7 @@ const Cart = (props) => {
   }
   const taxes = subtotal * TAX_RATE;
   const invoiceTotal = subtotal + taxes;
+
   //=======================================================
 
   const deleteProductFromCart = async (productId, localProductId) => {
@@ -250,8 +255,12 @@ const Cart = (props) => {
           onClick={() => {
             if (props.cart.products.length > 0) {
               if (props.user) {
+                props.setTotal(ccyFormat(invoiceTotal));
+                props.setPurchaseDate(new Date().toLocaleString());
                 history.push("/checkout");
               } else {
+                props.setTotal(invoiceTotal);
+                props.setPurchaseDate(new Date().toLocaleString());
                 history.push("/checkout-redirect");
               }
             }

@@ -26,6 +26,8 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [cart, setCart] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const [total, setTotal] = useState("");
+  const [purchaseDate, setPurchaseDate] = useState("");
 
   //============================================================
   function Copyright(props) {
@@ -172,12 +174,19 @@ function App() {
         searchTerm={searchTerm}
         setCart={setCart}
       ></Navbar>
-      <div style={{ marginTop: "1rem" }}>
+      <div style={{ marginTop: "1rem" }} className="body">
         <Route exact path="/">
           <Home />
         </Route>
         <Route exact path="/cart">
-          <Cart user={user} token={token} cart={cart} getMyCart={getMyCart} />
+          <Cart
+            user={user}
+            token={token}
+            cart={cart}
+            getMyCart={getMyCart}
+            setTotal={setTotal}
+            setPurchaseDate={setPurchaseDate}
+          />
         </Route>
         <Route exact path="/account">
           <Account token={token} user={user} />
@@ -219,7 +228,12 @@ function App() {
           <SearchResult />
         </Route>
         <Route exact path="/checkout">
-          <CheckoutForm />
+          <CheckoutForm
+            total={total}
+            purchaseDate={purchaseDate}
+            cart={cart}
+            token={token}
+          />
         </Route>
         <Route exact path="/checkout-redirect">
           <CheckoutRedirect
@@ -232,7 +246,9 @@ function App() {
           />
         </Route>
       </div>
-      <Copyright sx={{ mt: 8, mb: 4 }} />
+      <div className="footer">
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </div>
     </div>
   );
 }

@@ -51,7 +51,7 @@ const Navbar = (props) => {
     <>
       {/* <AppBar>
         <Toolbar> */}
-      <div className="navbar">
+      <div className="header">
         <div className="navbar-top">
           <div className="center">
             <Link
@@ -88,6 +88,7 @@ const Navbar = (props) => {
                   fontSize: "1em",
                   outline: "none",
                   border: "none",
+                  paddingLeft: "1em",
                 }}
               ></input>
             </form>
@@ -222,6 +223,7 @@ const Navbar = (props) => {
                   fontSize: "1.2em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
+                  textTransform: "none",
                 }}
               >
                 Fiction
@@ -236,6 +238,7 @@ const Navbar = (props) => {
                   fontSize: "1.2em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
+                  textTransform: "none",
                 }}
               >
                 Nonfiction
@@ -250,6 +253,7 @@ const Navbar = (props) => {
                   fontSize: "1.2em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
+                  textTransform: "none",
                 }}
               >
                 Children
@@ -264,6 +268,7 @@ const Navbar = (props) => {
                   fontSize: "1.2em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
+                  textTransform: "none",
                 }}
               >
                 Young Adult
