@@ -108,8 +108,8 @@ const Cart = (props) => {
         }
       }
       console.log("working");
-      props.getMyCart();
     }
+    props.getMyCart();
   };
 
   useEffect(() => {
