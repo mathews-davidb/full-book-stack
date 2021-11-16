@@ -17,6 +17,10 @@ const ProductPage = (props) => {
   const [quantity, setQuantity] = useState("1");
   const [errorMessage, setErrorMessage] = useState("");
 
+  function ccyFormat(num) {
+    return `${Number(num).toFixed(2)}`;
+  }
+
   const getBookInfo = async () => {
     const response = await fetch(`${baseUrl}${window.location.pathname}`);
     const info = await response.json();
@@ -86,18 +90,25 @@ const ProductPage = (props) => {
   return (
     <div
       style={{
-        marginLeft: "4rem",
+        marginTop: "2em",
         marginRight: "4rem",
         display: "grid",
         gridTemplateColumns: "50% 50%",
       }}
     >
-      <img src={book.image}></img>
-      <div>
+      <div style={{ marginRight: "auto", marginLeft: "auto" }}>
+        <img style={{ height: "400px" }} src={book.image}></img>
+      </div>
+      <div style={{ marginRight: "auto", marginLeft: "0em" }}>
         <h2>{book.name}</h2>
         <div>by {book.author}</div>
         <br></br>
-        <div style={{ borderBottom: "1px solid black", paddingBottom: "10px" }}>
+        <div
+          style={{
+            borderBottom: "2px solid black",
+            paddingBottom: "1em",
+          }}
+        >
           {book.description}
         </div>
         <div style={{ marginTop: "2rem" }}>
@@ -108,8 +119,9 @@ const ProductPage = (props) => {
             </div>
           )}
           {!book.stock && <div style={{ color: "red" }}> Out of Stock</div>}
-          <div style={{ marginTop: "1em" }}>${book.price}</div>
+          <div style={{ marginTop: "1em" }}>${ccyFormat(book.price)}</div>
           <form onSubmit={addItemToCart} style={{ marginTop: "1em" }}>
+            <label>QTY - </label>
             <select
               required
               defaultValue={1}
@@ -122,11 +134,6 @@ const ProductPage = (props) => {
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
             </select>{" "}
             <br></br>
             <br></br>
