@@ -86,7 +86,6 @@ const ProductPage = (props) => {
   return (
     <div
       style={{
-        marginTop: "12em",
         marginLeft: "4rem",
         marginRight: "4rem",
         display: "grid",

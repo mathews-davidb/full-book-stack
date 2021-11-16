@@ -78,7 +78,6 @@ const Register = (props) => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 18,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -162,7 +161,6 @@ const Register = (props) => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );

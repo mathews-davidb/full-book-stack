@@ -10,6 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Typography } from "@mui/material";
 
 const Navbar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -193,7 +194,6 @@ const Navbar = (props) => {
                 "aria-labelledby": "basic-button",
               }}
               class="dropdown"
-              style={{ columns: 4 }}
             >
               {props.categories.map((category) => {
                 return (
@@ -278,6 +278,7 @@ const Navbar = (props) => {
                   fontSize: "1.2em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
+                  textTransform: "none",
                 }}
               >
                 Travel
