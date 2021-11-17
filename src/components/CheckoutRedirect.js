@@ -53,38 +53,8 @@ const CheckoutRedirect = (props) => {
 
     setIsLoggedIn(true);
     setToken(info.token);
-
-    props.getUser();
-    props.getMyCart();
-
-    if (localStorage.getItem("localCart")) {
-      let localCart = JSON.parse(localStorage.getItem("localCart"));
-      for (let i = 0; i < localCart.length; i++) {
-        const response = await fetch(
-          `${baseUrl}/orders/${props.cart.id}/products`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${props.token}`,
-            },
-            body: JSON.stringify({
-              product_id: localCart[i].product_id,
-              quantity: localCart[i].quantity,
-            }),
-          }
-        );
-        const info = await response.json();
-      }
-    }
-    props.getMyCart();
-    localStorage.setItem("localCart", "");
-    history.push("/checkout");
+    history.push("/cart");
   };
-
-  //===================================================================
-
-  const guestCheckout = () => {};
 
   //===================================================================
 
@@ -93,8 +63,12 @@ const CheckoutRedirect = (props) => {
       <ThemeProvider theme={theme}>
         <Container
           component="main"
-          maxWidth="xs"
-          style={{ border: "1px solid black", borderRadius: "10px" }}
+          maxWidth="s"
+          style={{
+            width: "80%",
+            borderRadius: "10px",
+            backgroundColor: "#e0e0eb",
+          }}
         >
           <CssBaseline />
           <Box
@@ -104,7 +78,14 @@ const CheckoutRedirect = (props) => {
               alignItems: "center",
             }}
           >
-            <Typography component="h1" variant="h5">
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{
+                fontSize: "1.5em",
+                marginTop: "1em",
+              }}
+            >
               Registered Customers:
             </Typography>
             <Box
@@ -114,6 +95,7 @@ const CheckoutRedirect = (props) => {
               sx={{ mt: 1 }}
             >
               <TextField
+                variant="standard"
                 margin="normal"
                 required
                 fullWidth
@@ -123,8 +105,10 @@ const CheckoutRedirect = (props) => {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                // style={{ backgroundColor: 'white' }}
               />
               <TextField
+                variant="standard"
                 margin="normal"
                 required
                 fullWidth
@@ -134,12 +118,16 @@ const CheckoutRedirect = (props) => {
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                // style={{ backgroundColor: 'white' }}
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                style={{
+                  backgroundColor: "#374785",
+                }}
               >
                 Login
               </Button>
@@ -149,11 +137,12 @@ const CheckoutRedirect = (props) => {
         </Container>
         <Container
           component="main"
-          maxWidth="xs"
+          maxWidth="s"
           style={{
-            border: "1px solid black",
+            width: "80%",
             borderRadius: "10px",
             marginTop: "2em",
+            backgroundColor: "#e0e0eb",
           }}
         >
           <CssBaseline />
@@ -169,13 +158,13 @@ const CheckoutRedirect = (props) => {
               variant="h5"
               style={{
                 fontSize: "1.2em",
-                marginTop: "1em",
+                margin: "1em",
               }}
             >
               New Customers:
             </Typography>
             <Box>
-              <span>Click here to create a new account:</span>
+              <Typography>Click here to create a new account</Typography>
               <Button
                 type="submit"
                 fullWidth
@@ -184,6 +173,7 @@ const CheckoutRedirect = (props) => {
                 }}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                style={{ backgroundColor: "#374785" }}
               >
                 Register
               </Button>
@@ -194,27 +184,6 @@ const CheckoutRedirect = (props) => {
               noValidate
               sx={{ mt: 1 }}
             >
-              <span>Enter email to continue with guest checkout:</span>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                className="login-input"
-                type="email"
-                min={6}
-                placeholder="Enter email"
-                value={newEmail}
-                onChange={(e) => setNewEmail(e.target.value)}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                onClick={guestCheckout}
-              >
-                Continue As Guest
-              </Button>
               <p className="errorMessage">{errorMessage}</p>
             </Box>
           </Box>

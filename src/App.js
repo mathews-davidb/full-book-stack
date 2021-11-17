@@ -124,27 +124,27 @@ function App() {
 
   //============================================================
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("localCart")) {
-  //     let localCart = JSON.parse(localStorage.getItem("localCart"));
-  //     for (let i = 0; i < localCart.length; i++) {
-  //       const response = fetch(`${baseUrl}/orders/${cart.id}/products`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({
-  //           product_id: localCart[i].product_id,
-  //           quantity: localCart[i].quantity,
-  //         }),
-  //       });
-  //       const info = response.json();
-  //     }
-  //     localStorage.setItem("localCart", "");
-  //     getMyCart();
-  //   }
-  // }, [cart.id]);
+  useEffect(async () => {
+    if (localStorage.getItem("localCart")) {
+      let localCart = JSON.parse(localStorage.getItem("localCart"));
+      for (let i = 0; i < localCart.length; i++) {
+        const response = await fetch(`${baseUrl}/orders/${cart.id}/products`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            product_id: localCart[i].product_id,
+            quantity: localCart[i].quantity,
+          }),
+        });
+        const info = await response.json();
+      }
+    }
+    getMyCart();
+    localStorage.setItem("localCart", "");
+  }, [cart.id]);
 
   //============================================================
 

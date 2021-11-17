@@ -5,6 +5,7 @@ import "./Components.css";
 import {
   Button,
   CssBaseline,
+  FormControl,
   IconButton,
   Input,
   InputLabel,
@@ -139,19 +140,24 @@ const Admin = (props) => {
             onChange={(e) => setQuantity(e.target.value)}
             required
           />
-          <Select
-            style={{ margin: "1rem" }}
-            labelId="demo-simple-select-label"
-            id="demo-simple-select-helper"
-            value={category}
-            label="Category"
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          >
-            {props.categories.map((category) => {
-              return <MenuItem value={category.name}>{category.name}</MenuItem>;
-            })}
-          </Select>
+          <FormControl length>
+            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+            <Select
+              style={{ margin: "1rem", minWidth: "120px" }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select-helper"
+              value={category}
+              label="Category"
+              onChange={(e) => setCategory(e.target.value)}
+              required
+            >
+              {props.categories.map((category) => {
+                return (
+                  <MenuItem value={category.name}>{category.name}</MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
           <TextField
             style={{ margin: "1rem" }}
             id="add-product-input"

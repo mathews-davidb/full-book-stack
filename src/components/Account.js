@@ -19,11 +19,13 @@ const useStyles = makeStyles({
   },
   root: {
     width: "60%",
-    marginTop: "50px",
     overflowX: "auto",
-    marginLeft: "30px",
+    margin: "auto",
   },
-  row: {
+  row1: {
+    backgroundColor: "#5085a5",
+  },
+  row2: {
     backgroundColor: "#8fc1e3",
   },
 });
@@ -70,42 +72,55 @@ const Account = (props) => {
         <h1>My Account</h1>
         <h3>Purchased Orders</h3>
       </div>
-      <Paper className={classes.root}>
-        {orders &&
-          orders.map((order) => (
-            <div key={order.id}>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow className={classes.row}>
-                    <TableCell>Product</TableCell>
-                    <TableCell align="left">Qty.</TableCell>
-                    <TableCell align="right">@</TableCell>
-                    <TableCell align="right">Price</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {order.products.map((product) => {
-                    return (
-                      <TableRow key={product.product_id}>
-                        <TableCell>{product.product_name}</TableCell>
-                        <TableCell>{product.quantity}</TableCell>
-                        <TableCell align="right">{product.price}</TableCell>
-                        <TableCell align="right">
-                          {ccyFormat(product.price * product.quantity)}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                  <TableRow>
-                    <TableCell rowSpan={3} />
-                    <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell align="right">{order.total}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+      {orders &&
+        orders.map((order) => (
+          <div>
+            <Paper className={classes.root}>
+              <div key={order.id}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow className={classes.row1}>
+                      <TableCell align="left">Order #: {order.id}</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell align="right">
+                        Date Purchased:{order.date}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow className={classes.row2}>
+                      <TableCell>Product</TableCell>
+                      <TableCell align="left">Qty.</TableCell>
+                      <TableCell align="right">@</TableCell>
+                      <TableCell align="right">Price</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {order.products.map((product) => {
+                      return (
+                        <TableRow key={product.product_id}>
+                          <TableCell>{product.product_name}</TableCell>
+                          <TableCell>{product.quantity}</TableCell>
+                          <TableCell align="right">{product.price}</TableCell>
+                          <TableCell align="right">
+                            {ccyFormat(product.price * product.quantity)}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                    <TableRow>
+                      <TableCell rowSpan={3} />
+                      <TableCell colSpan={2}>Total</TableCell>
+                      <TableCell align="right">{order.total}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+            </Paper>
+            <div style={{ margin: "1rem" }}>
+              <br></br>
             </div>
-          ))}
-      </Paper>
+          </div>
+        ))}
     </>
   );
 };

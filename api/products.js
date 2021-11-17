@@ -37,8 +37,7 @@ productsRouter.post("/", upload.single("image"), async (req, res, next) => {
     !stock ||
     !category ||
     !author ||
-    !image ||
-    !publisher
+    !image
   ) {
     return next({ error: "Missing input field" });
   }
@@ -56,7 +55,6 @@ productsRouter.post("/", upload.single("image"), async (req, res, next) => {
     category,
     author,
     image,
-    publisher,
   });
   console.log(newProduct);
   res.send(newProduct);

@@ -1,6 +1,7 @@
 import "./Components.css";
 import {
   Button,
+  CardMedia,
   IconButton,
   Paper,
   Table,
@@ -37,6 +38,11 @@ const useStyles = makeStyles({
   },
   row: {
     backgroundColor: "#8fc1e3",
+  },
+  btn: {
+    display: "flex",
+    justifyContent: "center",
+    margin: "1rem",
   },
 });
 
@@ -157,15 +163,20 @@ const Cart = (props) => {
                 cart.products.map((product) => (
                   <TableRow key={product.product_id}>
                     <TableCell>
-                      <img
-                        src={`${product.product_image}`}
-                        style={{ height: "5em", marginRight: "1em" }}
+                      <img src={product.product_image} />
+                      <CardMedia
+                        component="img"
+                        height="25em"
+                        width="15em"
+                        image={product.product_image}
+                        alt={product.name}
                       />
                       {product.product_name}
                     </TableCell>
                     <TableCell align="right">
                       <select
                         name="quantity"
+                        value={product.quantity}
                         onChange={(e) => {
                           setUpdatedProduct({
                             productId: product.id,
@@ -246,30 +257,33 @@ const Cart = (props) => {
             </TableBody>
           </Table>
         </Paper>
-        <Button
-          style={{
-            marginTop: "2em",
-            height: "56px",
-            justifyContent: "center",
-          }}
-          onClick={() => {
-            if (props.cart.products.length > 0) {
-              if (props.user) {
-                props.setTotal(ccyFormat(invoiceTotal));
-                props.setPurchaseDate(new Date().toLocaleString());
-                history.push("/checkout");
-              } else {
-                props.setTotal(invoiceTotal);
-                props.setPurchaseDate(new Date().toLocaleString());
-                history.push("/checkout-redirect");
+        <div className={classes.btn}>
+          <Button
+            style={{
+              marginTop: "1em",
+              height: "56px",
+              justifyContent: "center",
+              backgroundColor: "#8fc1e3",
+            }}
+            onClick={() => {
+              if (props.cart.products.length > 0) {
+                if (props.user) {
+                  props.setTotal(ccyFormat(invoiceTotal));
+                  props.setPurchaseDate(new Date().toLocaleString());
+                  history.push("/checkout");
+                } else {
+                  props.setTotal(invoiceTotal);
+                  props.setPurchaseDate(new Date().toLocaleString());
+                  history.push("/checkout-redirect");
+                }
               }
-            }
-          }}
-          type="submit"
-          variant="contained"
-        >
-          Proceed to Checkout
-        </Button>
+            }}
+            type="submit"
+            variant="contained"
+          >
+            Proceed to Checkout
+          </Button>
+        </div>
       </>
     );
   };
