@@ -31,10 +31,21 @@ usersRouter.post("/register", async (req, res, next) => {
         error: "Register Error: Account already exists",
       });
     }
+
     const newUser = await createUser({ email, name, password });
+    const token = jwt.sign(
+      {
+        id: newUser.id,
+        email: newUser.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
     console.log(newUser);
     createOrder(newUser.id);
-    res.send({ user: newUser });
+    res.send({ user: newUser, token });
   } catch (error) {
     throw error;
   }

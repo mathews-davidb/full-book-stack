@@ -16,19 +16,32 @@ const useStyles = makeStyles({
     marginLeft: "0",
     fontSize: "1.5rem",
   },
-  root: {
+  center: {
     display: "flex",
-    flexWrap: "wrap",
-    // gridTemplateColumns: "60% 40%",
-    // gridTemplateRows: "50% 50%",
-  },
-  form: {
-    margin: "2rem",
-    marginTop: "0.5em",
+    flexDirection: "row",
     justifyContent: "center",
+  },
+  billing: {
+    width: "40%",
+    margin: "0 2rem 2rem 2rem",
   },
   creditcard: {
+    width: "40%",
+    marginRight: "2rem",
+  },
+  shipping: {
+    width: "80%",
+    marginRight: "1.3rem",
+  },
+  btn: {
+    display: "flex",
     justifyContent: "center",
+    margin: "2rem",
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    justifyItems: "end",
   },
 });
 
@@ -94,179 +107,224 @@ function CheckoutForm(props) {
           className={classes.form}
           //   onSubmit={completeOrder}
         >
-          <span>
-            <Typography className={classes.header}>
-              Billing Information
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="First Name"
-                  variant="outlined"
-                  fullWidth
-                />
+          <div className={classes.center}>
+            <div className={classes.billing}>
+              <Typography className={classes.header}>
+                Billing Information
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="First Name"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Last Name"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Address Line 1"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Address Line 2"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Postal/Zip Code"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="City"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Province/State"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Country"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="Last Name"
-                  variant="outlined"
-                  fullWidth
-                />
+            </div>
+            <div className={classes.creditcard}>
+              <svg
+                style={{ marginLeft: "1rem" }}
+                xmlns="http://www.w3.org/2000/svg"
+                height="40"
+                viewBox="0 0 24 24"
+                width="40"
+              >
+                {/* <Typography className={classes.header}>Card Info</Typography>{" "} */}
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+              </svg>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Card Number"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    type="text"
+                    placeholder="Name"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Valid Thru"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="CVC"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  placeholder="Address Line 1"
-                  variant="outlined"
-                  fullWidth
-                />
+              <div className={classes.btn}>
+                <Button
+                  variant="contained"
+                  onClick={completeOrder}
+                  style={{
+                    padding: "1rem",
+                    marginLeft: "2rem",
+                    backgroundColor: "#8fc1e3",
+                  }}
+                >
+                  Confirm Payment
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className={classes.grid}>
+            <div className={classes.shipping}>
+              <Typography className={classes.header}>
+                Shipping Information
+              </Typography>
+              <Checkbox
+                onChange={() => {
+                  if (same) {
+                    setSame(false);
+                  } else {
+                    setSame(true);
+                  }
+                }}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="First Name"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Last Name"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Address Line 1"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Address Line 2"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Postal/Zip Code"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="City"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Province/State"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    placeholder="Country"
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  placeholder="Address Line 2"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="Postal/Zip Code"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField placeholder="City" variant="outlined" fullWidth />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="Province/State"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField placeholder="Country" variant="outlined" fullWidth />
-              </Grid>
-            </Grid>
-          </span>
-          <span>
-            <svg
-              style={{ alignSelf: "center" }}
-              xmlns="http://www.w3.org/2000/svg"
-              height="40"
-              viewBox="0 0 24 24"
-              width="40"
-            >
-              {/* <Typography className={classes.header}>Card Info</Typography>{" "} */}
-              <path d="M0 0h24v24H0z" fill="none" />
-              <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
-            </svg>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  placeholder="Card Number"
-                  variant="outlined"
-                  fullWidth
-                ></TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  type="text"
-                  placeholder="Name"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="Valid Thru"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField placeholder="CVC" variant="outlined" fullWidth />
-              </Grid>
-            </Grid>
-          </span>
-          <span>
-            <Typography className={classes.header}>
-              Shipping Information
-            </Typography>
-            <Checkbox
-              onChange={() => {
-                if (same) {
-                  setSame(false);
-                } else {
-                  setSame(true);
-                }
-              }}
-              inputProps={{ "aria-label": "controlled" }}
-            />
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="First Name"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="Last Name"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  placeholder="Address Line 1"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  placeholder="Address Line 2"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="Postal/Zip Code"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField placeholder="City" variant="outlined" fullWidth />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  placeholder="Province/State"
-                  variant="outlined"
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField placeholder="Country" variant="outlined" fullWidth />
-              </Grid>
-            </Grid>
-          </span>
-          <span>
-            <Button
-              variant="contained"
-              onClick={completeOrder}
-              style={{
-                padding: "1rem",
-                marginLeft: "2rem",
-                backgroundColor: "#8fc1e3",
-              }}
-            >
-              Confirm Payment
-            </Button>
-          </span>
+            </div>
+          </div>
         </form>
       </div>
     </>

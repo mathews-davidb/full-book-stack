@@ -71,7 +71,11 @@ const ProductCategory = (props) => {
                     <CardMedia
                       component="img"
                       height="340em"
-                      image={book.image}
+                      image={
+                        book.image.includes("http")
+                          ? book.image
+                          : `/images/${book.image}`
+                      }
                       alt={book.name}
                     />
                   </CardContent>
