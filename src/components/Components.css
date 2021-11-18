@@ -34,7 +34,8 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 20em auto 15em;
-  background-color: #687864;
+  background-color: #3f473a;
+  border-bottom: 5px solid white;
 }
 
 .navbar-bottom {
@@ -43,6 +44,7 @@
   min-width: 100vw;
   max-width: 1500px;
   margin: 0 auto;
+  background-color: #7395ae;
 }
 
 .center {

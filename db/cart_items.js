@@ -8,15 +8,16 @@ const addCartItem = async ({ order_id, product_id, quantity }) => {
   const product = await getProductById(product_id);
   const price = product.price;
   const name = product.name;
+  const image = product.image;
   // console.log(price);
   try {
     const resp = await client.query(
       `
-        INSERT INTO cart_items (order_id, product_id, price, quantity, product_name)
-        VALUES ($1, $2, $3, $4, $5)
+        INSERT INTO cart_items (order_id, product_id, price, quantity, product_name, product_image)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *
         `,
-      [order_id, product_id, price, quantity, name]
+      [order_id, product_id, price, quantity, name, image]
     );
     const cart_item = resp.rows[0];
     return cart_item;
