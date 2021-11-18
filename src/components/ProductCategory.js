@@ -56,7 +56,12 @@ const ProductCategory = (props) => {
   categoryName = words.join(" ");
 
   return (
-    <>
+    <div
+      style={{
+        backgroundImage: `url("images/library3.jpeg")`,
+        backgroundRepeat: "repeat",
+      }}
+    >
       <h1 style={{ textAlign: "center" }}>{categoryName}</h1>
       <Container>
         <Grid container spacing={3} alignItems="center">
@@ -102,7 +107,7 @@ const ProductCategory = (props) => {
           ))}
         </Grid>
       </Container>
-    </>
+    </div>
   );
 };
 

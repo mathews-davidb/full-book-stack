@@ -133,7 +133,12 @@ const Cart = (props) => {
     const classes = useStyles();
 
     return (
-      <>
+      <div
+        style={{
+          backgroundImage: `url("images/library3.jpeg")`,
+          backgroundRepeat: "repeat",
+        }}
+      >
         <h1 style={{ textAlign: "center" }}>Shopping Cart</h1>
         <Paper className={classes.root}>
           <Table className={classes.table}>
@@ -162,14 +167,12 @@ const Cart = (props) => {
                 cart.products.length > 0 &&
                 cart.products.map((product) => (
                   <TableRow key={product.product_id}>
-                    <TableCell>
-                      <img src={product.product_image} />
-                      <CardMedia
-                        component="img"
-                        height="25em"
-                        width="15em"
-                        image={product.product_image}
-                        alt={product.name}
+                    <TableCell
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <img
+                        src={`${product.product_image}`}
+                        style={{ height: "5em", marginRight: "1em" }}
                       />
                       {product.product_name}
                     </TableCell>
@@ -269,11 +272,11 @@ const Cart = (props) => {
               if (props.cart.products.length > 0) {
                 if (props.user) {
                   props.setTotal(ccyFormat(invoiceTotal));
-                  props.setPurchaseDate(new Date().toLocaleString());
+                  props.setPurchaseDate(new Date().toDateString());
                   history.push("/checkout");
                 } else {
                   props.setTotal(invoiceTotal);
-                  props.setPurchaseDate(new Date().toLocaleString());
+                  props.setPurchaseDate(new Date().toDateString());
                   history.push("/checkout-redirect");
                 }
               }
@@ -284,7 +287,7 @@ const Cart = (props) => {
             Proceed to Checkout
           </Button>
         </div>
-      </>
+      </div>
     );
   };
 

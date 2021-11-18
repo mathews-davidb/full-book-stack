@@ -63,10 +63,17 @@ const Navbar = (props) => {
                 textDecoration: "None",
               }}
             >
-              FULL BOOKSTACK
+              <img
+                style={{
+                  height: "250px",
+                  marginTop: "-5.8rem",
+                  marginLeft: "2rem",
+                }}
+                src={"/images/lgw2.png"}
+              ></img>
             </Link>
           </div>
-          <div className="center">
+          <div className="center" style={{ marginTop: "-6.5rem" }}>
             <form
               onSubmit={searchSubmit}
               style={{
@@ -93,7 +100,10 @@ const Navbar = (props) => {
               ></input>
             </form>
           </div>
-          <div className="center" style={{ marginRight: "2em" }}>
+          <div
+            className="center"
+            style={{ marginRight: "2em", marginTop: "-6.5rem" }}
+          >
             {props.isAdmin && (
               <Link
                 to="/admin"

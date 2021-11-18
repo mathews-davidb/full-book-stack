@@ -70,8 +70,22 @@ const Login = (props) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+    <div
+      style={{
+        height: "73vh",
+        fontFamily: "Nunito",
+      }}
+    >
+      <br></br>
+      <Container
+        component="main"
+        maxWidth="xs"
+        style={{
+          width: "60%",
+          borderRadius: "10px",
+          backgroundColor: "#FBFBFD",
+        }}
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -80,11 +94,11 @@ const Login = (props) => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ mt: 2, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Log In
           </Typography>
           <Box
             component="form"
@@ -93,7 +107,6 @@ const Login = (props) => {
             sx={{ mt: 1 }}
           >
             <TextField
-              margin="normal"
               required
               fullWidth
               lassName="login-input"
@@ -119,19 +132,23 @@ const Login = (props) => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              style={{
+                backgroundColor: "#7395ae",
+              }}
+              onClick={() => {
+                localStorage.setItem("toast", 1);
+              }}
             >
               Login
             </Button>
             <p className="errorMessage">{errorMessage}</p>
-            <Grid container>
-              <Grid item>
-                <Link to="/register">{"Don't have an account? Sign Up"}</Link>
-              </Grid>
-            </Grid>
+            <div style={{ marginBottom: "2rem", alignSelf: "center" }}>
+              <Link to="/register">{"Don't have an account? Sign Up"}</Link>
+            </div>
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </div>
   );
 };
 

@@ -6,20 +6,14 @@ const Home = (props) => {
   const history = useHistory();
   return (
     <div className="video-container">
-      {/* <video loop autoPlay muted>
+      <video loop autoPlay muted>
         <source src={video} type="video/mp4" />
-      </video> */}
+      </video>
       <div className="text">
-        <h1
-          style={{
-            fontFamily: "serif",
-            fontSize: "3em",
-            color: "#DAA520",
-            textDecoration: "None",
-          }}
-        >
-          FULL BOOKSTACK
-        </h1>
+        <img
+          style={{ height: "200px", marginTop: "-4.3rem" }}
+          src={"/images/lgw3.png"}
+        ></img>
         <h2
           style={{
             fontFamily: "serif",

@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Route } from "react-router";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast, Slide } from "react-toastify";
 import baseUrl from "./api";
 import "./App.css";
 import Account from "./components/Account";
@@ -17,6 +18,7 @@ import ProductCategory from "./components/ProductCategory";
 import ProductPage from "./components/ProductPage";
 import Register from "./components/Register";
 import SearchResult from "./components/SearchResult";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -160,8 +162,22 @@ function App() {
 
   //============================================================
 
+  // useEffect(() => {
+  //   let toastvar = localStorage.getItem("toast");
+  //   console.log("toast:", toastvar);
+  //   if (toastvar == 1) {
+  //     toast.success(`Welcome, ${user.name}.  You are now logged in. `, {
+  //       transition: Slide,
+  //     });
+  //     localStorage.setItem("toast", "");
+  //   }
+  // }, []);
+
+  //============================================================
+
   return (
-    <div className="App">
+    <>
+      <ToastContainer autclose={5000} position="top-right" />
       <Navbar
         isLoggedIn={isLoggedIn}
         setIsLoggedIn={setIsLoggedIn}
@@ -174,82 +190,92 @@ function App() {
         searchTerm={searchTerm}
         setCart={setCart}
       ></Navbar>
-      <div style={{ marginTop: "1rem" }} className="body">
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/cart">
-          <Cart
-            user={user}
-            token={token}
-            cart={cart}
-            getMyCart={getMyCart}
-            setTotal={setTotal}
-            setPurchaseDate={setPurchaseDate}
-          />
-        </Route>
-        <Route exact path="/account">
-          <Account token={token} user={user} />
-        </Route>
-        <Route exact path="/login">
-          <Login
-            token={token}
-            setToken={setToken}
-            setIsLoggedIn={setIsLoggedIn}
-          />
-        </Route>
-        <Route exact path="/register">
-          <Register
-            setToken={setToken}
-            setIsLoggedIn={setIsLoggedIn}
-            getUser={getUser}
-            user={user}
-            getMyCart={getMyCart}
-          />
-        </Route>
-        <Route exact path="/products">
-          <AllProducts />
-        </Route>
-        <Route exact path="/admin">
-          <Admin token={token} user={user} categories={categories} />
-        </Route>
-        <Route exact path="/products/:id">
-          <ProductPage
-            cart={cart}
-            user={user}
-            token={token}
-            getMyCart={getMyCart}
-          />
-        </Route>
-        <Route exact path="/products/category/:name">
-          <ProductCategory />
-        </Route>
-        <Route exact path="/products/search/:searchterm">
-          <SearchResult />
-        </Route>
-        <Route exact path="/checkout">
-          <CheckoutForm
-            total={total}
-            purchaseDate={purchaseDate}
-            cart={cart}
-            token={token}
-          />
-        </Route>
-        <Route exact path="/checkout-redirect">
-          <CheckoutRedirect
-            token={token}
-            setToken={setToken}
-            setIsLoggedIn={setIsLoggedIn}
-            getMyCart={getMyCart}
-            getUser={getUser}
-            cart={cart}
-          />
-        </Route>
+
+      <Route exact path="/">
+        <Home />
+      </Route>
+      <div>
+        <div
+          style={{
+            backgroundImage: `url("images/library3.jpeg")`,
+            backgroundRepeat: "repeat",
+          }}
+        >
+          <Route exact path="/cart">
+            <Cart
+              user={user}
+              token={token}
+              cart={cart}
+              getMyCart={getMyCart}
+              setTotal={setTotal}
+              setPurchaseDate={setPurchaseDate}
+            />
+          </Route>
+          <Route exact path="/account">
+            <Account token={token} user={user} />
+          </Route>
+          <Route exact path="/login">
+            <Login
+              token={token}
+              setToken={setToken}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          </Route>
+          <Route exact path="/register">
+            <Register
+              setToken={setToken}
+              setIsLoggedIn={setIsLoggedIn}
+              getUser={getUser}
+              user={user}
+              getMyCart={getMyCart}
+            />
+          </Route>
+          <Route exact path="/products">
+            <AllProducts />
+          </Route>
+          <Route exact path="/admin">
+            <Admin token={token} user={user} categories={categories} />
+          </Route>
+          <Route exact path="/products/:id">
+            <ProductPage
+              cart={cart}
+              user={user}
+              token={token}
+              getMyCart={getMyCart}
+              categories={categories}
+              getCategories={getCategories}
+            />
+          </Route>
+          <Route exact path="/products/category/:name">
+            <ProductCategory />
+          </Route>
+          <Route exact path="/products/search/:searchterm">
+            <SearchResult />
+          </Route>
+          <Route exact path="/checkout">
+            <CheckoutForm
+              total={total}
+              purchaseDate={purchaseDate}
+              cart={cart}
+              token={token}
+            />
+          </Route>
+          <Route exact path="/checkout-redirect">
+            <CheckoutRedirect
+              token={token}
+              setToken={setToken}
+              setIsLoggedIn={setIsLoggedIn}
+              getMyCart={getMyCart}
+              getUser={getUser}
+              cart={cart}
+            />
+          </Route>
+        </div>
+        <div className="footer" style={{ padding: "0" }}>
+          <Copyright sx={{ mt: 1, mb: 1 }} />
+        </div>
       </div>
-      <div className="footer">
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </div>
-    </div>
+    </>
   );
 }
 

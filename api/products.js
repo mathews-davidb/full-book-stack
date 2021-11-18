@@ -27,8 +27,7 @@ productsRouter.get("/", async (req, res) => {
 //==========================================================
 
 productsRouter.post("/", upload.single("image"), async (req, res, next) => {
-  const { name, description, price, stock, category, author, publisher } =
-    req.body;
+  const { name, description, price, stock, category, author } = req.body;
   const image = req.file.filename;
   if (
     !name ||
@@ -41,6 +40,7 @@ productsRouter.post("/", upload.single("image"), async (req, res, next) => {
   ) {
     return next({ error: "Missing input field" });
   }
+
   const nameCheck = await getProductByName(name);
   if (nameCheck) {
     if (nameCheck.name === name) {
@@ -62,49 +62,35 @@ productsRouter.post("/", upload.single("image"), async (req, res, next) => {
 
 //==========================================================
 
-productsRouter.patch("/:productId", async (req, res, next) => {
-  const id = req.params.productId;
-  const {
-    name,
-    description,
-    price,
-    stock,
-    category,
-    author,
-    image,
-    publisher,
-  } = req.body;
-  if (
-    !name &&
-    !description &&
-    !price &&
-    !stock &&
-    !category &&
-    !author &&
-    !image &&
-    !publisher
-  ) {
-    return next({ error: "At least one input field must be filled out" });
-  }
-  const nameCheck = await getProductByName(name);
-  if (nameCheck) {
-    if (nameCheck.name === name) {
-      return next({ error: "Another product already exists with this name" });
+productsRouter.patch(
+  "/:productId",
+  upload.single("image"),
+  async (req, res, next) => {
+    const id = req.params.productId;
+    const { name, description, price, stock, category, author } = req.body;
+
+    console.log("new price:", price);
+    if (!name && !description && !price && !stock && !category && !author) {
+      return next({ error: "At least one input field must be filled out" });
     }
+    const nameCheck = await getProductByName(name);
+    if (nameCheck) {
+      if (nameCheck.name === name) {
+        return next({ error: "Another product already exists with this name" });
+      }
+    }
+    const editProduct = await updateProduct({
+      id,
+      name,
+      description,
+      price,
+      stock,
+      category,
+      author,
+    });
+    res.send(editProduct);
   }
-  const editProduct = await updateProduct({
-    id,
-    name,
-    description,
-    price,
-    stock,
-    category,
-    author,
-    image,
-    publisher,
-  });
-  res.send(editProduct);
-});
+);
 
 //==========================================================
 

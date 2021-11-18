@@ -65,7 +65,6 @@ async function updateProduct({
   category,
   author,
   image,
-  publisher,
 }) {
   try {
     if (name) {
@@ -128,16 +127,7 @@ async function updateProduct({
         [id, author]
       );
     }
-    if (publisher) {
-      await client.query(
-        `
-              UPDATE products
-              SET publisher=$2
-              where id=$1
-              `,
-        [id, publisher]
-      );
-    }
+
     if (image) {
       await client.query(
         `

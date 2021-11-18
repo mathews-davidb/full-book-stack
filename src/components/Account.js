@@ -84,7 +84,7 @@ const Account = (props) => {
                       <TableCell></TableCell>
                       <TableCell></TableCell>
                       <TableCell align="right">
-                        Date Purchased:{order.date}
+                        Date Purchased: {order.date}
                       </TableCell>
                     </TableRow>
                     <TableRow className={classes.row2}>
