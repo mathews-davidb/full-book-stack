@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import img from "../components/media/library3.jpeg";
 
 function Copyright(props) {
   return (
@@ -72,7 +73,13 @@ const Login = (props) => {
   return (
     <div
       style={{
-        height: "73vh",
+        backgroundImage: `url(${img})`,
+        backgroundRepeat: "repeat",
+        minHeight: "84vh",
+        height: "100%",
+        zIndex: "-2",
+        // marginTop: "-3em",
+        height: "100vh",
         fontFamily: "Nunito",
       }}
     >
@@ -94,11 +101,19 @@ const Login = (props) => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ mt: 2, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ mt: 2, bgcolor: "#e0bc75" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Log In
+          <Typography
+            component="h1"
+            variant="h5"
+            style={{
+              fontFamily: "satisfy",
+              fontSize: "3em",
+              fontWeight: "700",
+            }}
+          >
+            Login
           </Typography>
           <Box
             component="form"

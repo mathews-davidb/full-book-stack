@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import img from "../components/media/library3.jpeg";
 
 const theme = createTheme();
 
@@ -59,15 +60,28 @@ const CheckoutRedirect = (props) => {
   //===================================================================
 
   return (
-    <div style={{ marginTop: "3em" }}>
+    <div
+      style={{
+        backgroundImage: `url(${img})`,
+        backgroundRepeat: "repeat",
+        minHeight: "84vh",
+        height: "100%",
+        zIndex: "-2",
+        // marginTop: "-3em",
+        height: "100vh",
+        fontFamily: "Nunito",
+      }}
+    >
+      <br></br>
       <ThemeProvider theme={theme}>
         <Container
           component="main"
           maxWidth="s"
           style={{
-            width: "80%",
+            width: "60%",
             borderRadius: "10px",
-            backgroundColor: "#e0e0eb",
+            backgroundColor: "#FBFBFD",
+            paddingBottom: "2em",
           }}
         >
           <CssBaseline />
@@ -126,7 +140,7 @@ const CheckoutRedirect = (props) => {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 style={{
-                  backgroundColor: "#374785",
+                  backgroundColor: "#7395ae",
                 }}
               >
                 Login
@@ -135,14 +149,15 @@ const CheckoutRedirect = (props) => {
             </Box>
           </Box>
         </Container>
+        <br></br>
         <Container
           component="main"
           maxWidth="s"
           style={{
-            width: "80%",
+            width: "60%",
             borderRadius: "10px",
-            marginTop: "2em",
-            backgroundColor: "#e0e0eb",
+            backgroundColor: "#FBFBFD",
+            margingTop: "2em",
           }}
         >
           <CssBaseline />
@@ -173,7 +188,7 @@ const CheckoutRedirect = (props) => {
                 }}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-                style={{ backgroundColor: "#374785" }}
+                style={{ backgroundColor: "#7395ae" }}
               >
                 Register
               </Button>
@@ -188,6 +203,7 @@ const CheckoutRedirect = (props) => {
             </Box>
           </Box>
         </Container>
+        <br></br>
       </ThemeProvider>
     </div>
   );

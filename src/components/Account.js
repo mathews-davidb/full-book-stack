@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import baseUrl from "../api";
 import "./Components.css";
+import img from "../components/media/library3.jpeg";
 
 const TAX_RATE = 0.07;
 
@@ -24,6 +25,8 @@ const useStyles = makeStyles({
   },
   row1: {
     backgroundColor: "#5085a5",
+    fontSize: "1.5em",
+    color: "white",
   },
   row2: {
     backgroundColor: "#8fc1e3",
@@ -68,59 +71,87 @@ const Account = (props) => {
 
   return (
     <>
-      <div className={classes.header}>
-        <h1>My Account</h1>
-        <h3>Purchased Orders</h3>
-      </div>
-      {orders &&
-        orders.map((order) => (
-          <div>
-            <Paper className={classes.root}>
-              <div key={order.id}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow className={classes.row1}>
-                      <TableCell align="left">Order #: {order.id}</TableCell>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell align="right">
-                        Date Purchased: {order.date}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow className={classes.row2}>
-                      <TableCell>Product</TableCell>
-                      <TableCell align="left">Qty.</TableCell>
-                      <TableCell align="right">@</TableCell>
-                      <TableCell align="right">Price</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {order.products.map((product) => {
-                      return (
-                        <TableRow key={product.product_id}>
-                          <TableCell>{product.product_name}</TableCell>
-                          <TableCell>{product.quantity}</TableCell>
-                          <TableCell align="right">{product.price}</TableCell>
-                          <TableCell align="right">
-                            {ccyFormat(product.price * product.quantity)}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                    <TableRow>
-                      <TableCell rowSpan={3} />
-                      <TableCell colSpan={2}>Total</TableCell>
-                      <TableCell align="right">{order.total}</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+      <div
+        style={{
+          backgroundImage: `url(${img})`,
+          backgroundRepeat: "repeat",
+          minHeight: "84vh",
+          height: "100%",
+          zIndex: "-2",
+          // marginTop: "-3em",
+
+          fontFamily: "Nunito",
+        }}
+      >
+        <br></br>
+        {/* <h1 style={{ marginLeft: "2rem" }}>
+        Welcome, {props.user.name.split(" ")[0]}!
+      </h1> */}
+        <h1 style={{ marginLeft: "2rem" }}>My Account:</h1>
+        <h2 style={{ textAlign: "center" }}>Order History</h2>
+
+        {orders &&
+          orders.map((order) => (
+            <div>
+              <Paper className={classes.root}>
+                <div key={order.id}>
+                  <Table className={classes.table}>
+                    <TableHead>
+                      <TableRow className={classes.row1}>
+                        <TableCell
+                          align="left"
+                          style={{ color: "white", fontSize: "0.7em" }}
+                        >
+                          Order #: {order.id}
+                        </TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell
+                          align="right"
+                          style={{ color: "white", fontSize: "0.7em" }}
+                        >
+                          Date Purchased: {order.date}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow className={classes.row2}>
+                        <TableCell>Product</TableCell>
+                        <TableCell align="left">Qty.</TableCell>
+                        <TableCell align="right">@</TableCell>
+                        <TableCell align="right">Price</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {order.products.map((product) => {
+                        return (
+                          <TableRow key={product.product_id}>
+                            <TableCell>{product.product_name}</TableCell>
+                            <TableCell>{product.quantity}</TableCell>
+                            <TableCell align="right">{product.price}</TableCell>
+                            <TableCell align="right">
+                              {ccyFormat(product.price * product.quantity)}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                      <TableRow>
+                        <TableCell />
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                        <TableCell align="right">
+                          Total &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $
+                          {order.total}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </Paper>
+              <div style={{ margin: "1rem" }}>
+                <br></br>
               </div>
-            </Paper>
-            <div style={{ margin: "1rem" }}>
-              <br></br>
             </div>
-          </div>
-        ))}
+          ))}
+      </div>
     </>
   );
 };

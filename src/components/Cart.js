@@ -19,6 +19,7 @@ import {
   SettingsOverscanOutlined,
   SettingsOverscanTwoTone,
 } from "@mui/icons-material";
+import img from "../components/media/library3.jpeg";
 
 const TAX_RATE = 0.07;
 
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
     minWidth: 500,
   },
   row: {
-    backgroundColor: "#8fc1e3",
+    backgroundColor: "#7395ae",
   },
   btn: {
     display: "flex",
@@ -135,11 +136,27 @@ const Cart = (props) => {
     return (
       <div
         style={{
-          backgroundImage: `url("images/library3.jpeg")`,
+          backgroundImage: `url(${img})`,
           backgroundRepeat: "repeat",
+          minHeight: "84vh",
+          height: "100%",
+          zIndex: "-2",
+          // marginTop: "-3em",
+          height: "100vh",
+          fontFamily: "Nunito",
         }}
       >
-        <h1 style={{ textAlign: "center" }}>Shopping Cart</h1>
+        <br></br>
+        <h1
+          style={{
+            textAlign: "center",
+            fontFamily: "satisfy",
+            fontSize: "3em",
+            fontWeight: "700",
+          }}
+        >
+          Shopping Cart
+        </h1>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -266,7 +283,8 @@ const Cart = (props) => {
               marginTop: "1em",
               height: "56px",
               justifyContent: "center",
-              backgroundColor: "#8fc1e3",
+              backgroundColor: "#7395ae",
+              marginBottom: "2rem",
             }}
             onClick={() => {
               if (props.cart.products.length > 0) {
