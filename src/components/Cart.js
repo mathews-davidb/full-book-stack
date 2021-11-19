@@ -142,7 +142,7 @@ const Cart = (props) => {
           height: "100%",
           zIndex: "-2",
           // marginTop: "-3em",
-          height: "100vh",
+          height: "100",
           fontFamily: "Nunito",
         }}
       >
