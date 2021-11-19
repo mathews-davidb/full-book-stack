@@ -33,7 +33,7 @@
   max-width: auto;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 20em auto 15em;
+  grid-template-columns: 20em auto 20em;
   background-color: #3f473a;
   border-bottom: 5px solid white;
 }
@@ -80,8 +80,8 @@
 
 .text {
   position: fixed;
-  top: 40%;
-  left: 20%;
+  top: 75%;
+  left: 75%;
 
   transform: translate(-50%, -50%);
 

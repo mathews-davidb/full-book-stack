@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Route } from "react-router";
+import { Route, useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import baseUrl from "./api";
@@ -19,6 +19,7 @@ import ProductPage from "./components/ProductPage";
 import Register from "./components/Register";
 import SearchResult from "./components/SearchResult";
 import "react-toastify/dist/ReactToastify.css";
+import img from "./components/media/library3.jpeg";
 
 function App() {
   const [token, setToken] = useState(null);
@@ -30,6 +31,9 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [total, setTotal] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
+
+  let location = useLocation();
+  console.log(location);
 
   //============================================================
   function Copyright(props) {
@@ -165,18 +169,19 @@ function App() {
   // useEffect(() => {
   //   let toastvar = localStorage.getItem("toast");
   //   console.log("toast:", toastvar);
-  //   if (toastvar == 1) {
-  //     toast.success(`Welcome, ${user.name}.  You are now logged in. `, {
+  //   if (toastvar === 1) {
+  //     toast.success(`Welcome, ${user.name}.  You are now logged in.`, {
   //       transition: Slide,
   //     });
   //     localStorage.setItem("toast", "");
+  //     console.log("working");
   //   }
   // }, []);
 
   //============================================================
 
   return (
-    <>
+    <div>
       <ToastContainer autclose={5000} position="top-right" />
       <Navbar
         isLoggedIn={isLoggedIn}
@@ -194,12 +199,16 @@ function App() {
       <Route exact path="/">
         <Home />
       </Route>
+
       <div>
         <div
-          style={{
-            backgroundImage: `url("images/library3.jpeg")`,
-            backgroundRepeat: "repeat",
-          }}
+        // style={{
+        //   backgroundImage: `url(${img})`,
+        //   backgroundRepeat: "repeat",
+        //   minHeight: "84vh",
+        //   height: "100%",
+        //   zIndex: "-2",
+        // }}
         >
           <Route exact path="/cart">
             <Cart
@@ -244,6 +253,7 @@ function App() {
               getMyCart={getMyCart}
               categories={categories}
               getCategories={getCategories}
+              isAdmin={isAdmin}
             />
           </Route>
           <Route exact path="/products/category/:name">
@@ -271,11 +281,8 @@ function App() {
             />
           </Route>
         </div>
-        <div className="footer" style={{ padding: "0" }}>
-          <Copyright sx={{ mt: 1, mb: 1 }} />
-        </div>
       </div>
-    </>
+    </div>
   );
 }
 

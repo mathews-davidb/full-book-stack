@@ -96,6 +96,8 @@ const Navbar = (props) => {
                   outline: "none",
                   border: "none",
                   paddingLeft: "1em",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               ></input>
             </form>
@@ -111,6 +113,8 @@ const Navbar = (props) => {
                   color: "#F7f9fb",
                   textDecoration: "none",
                   fontSize: "1.2em",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Admin
@@ -149,6 +153,8 @@ const Navbar = (props) => {
                   color: "#F7f9fb",
                   fontSize: "1.2em",
                   textDecoration: "none",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Login
@@ -170,6 +176,8 @@ const Navbar = (props) => {
                   color: "#F7f9fb",
                   fontSize: "1.2em",
                   textDecoration: "none",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Logout
@@ -178,7 +186,14 @@ const Navbar = (props) => {
           </div>
         </div>
 
-        <div className="navbar-bottom" style={{ backgroundColor: "#8fc1e3" }}>
+        <div
+          className="navbar-bottom"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <div>
             <IconButton
               id="basic-button"
@@ -190,11 +205,16 @@ const Navbar = (props) => {
               style={{
                 textDecoration: "none",
                 color: "#F7f9fb",
-                fontSize: "1.1em",
+                fontSize: "1.2em",
+                fontFamily: "yuji syuku",
+                fontWeight: "bold",
+                marginTop: "0em",
+                alignContent: "center",
               }}
               margin-
             >
-              <MenuIcon /> All Categories
+              <MenuIcon style={{ marginRight: "0.5em", marginTop: "0.2em" }} />{" "}
+              All Categories
             </IconButton>
             <Menu
               id="basic-menu"
@@ -208,7 +228,18 @@ const Navbar = (props) => {
             >
               {props.categories.map((category) => {
                 return (
-                  <div class="dropbtn" key={category.id} onClick={handleClose}>
+                  <div
+                    class="dropbtn"
+                    key={category.id}
+                    onClick={handleClose}
+                    style={{
+                      fontFamily: "yuji syuku",
+                      fontWeight: "bold",
+                      display: "grid",
+                      gridTemplateColumns: "20% 20% 20% 20% 20%",
+                      gridTemplateRows: "14% 14% 14% 14% 14% 14% 14%",
+                    }}
+                  >
                     <a
                       href={"/products/category/" + category.name.toLowerCase()}
                       style={{
@@ -230,10 +261,12 @@ const Navbar = (props) => {
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
-                  fontSize: "1.2em",
+                  fontSize: "1.3em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
                   textTransform: "none",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Fiction
@@ -245,10 +278,12 @@ const Navbar = (props) => {
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
-                  fontSize: "1.2em",
+                  fontSize: "1.3em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
                   textTransform: "none",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Nonfiction
@@ -260,10 +295,12 @@ const Navbar = (props) => {
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
-                  fontSize: "1.2em",
+                  fontSize: "1.3em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
                   textTransform: "none",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Children
@@ -275,10 +312,12 @@ const Navbar = (props) => {
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
-                  fontSize: "1.2em",
+                  fontSize: "1.3em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
                   textTransform: "none",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Young Adult
@@ -290,10 +329,12 @@ const Navbar = (props) => {
                 style={{
                   textDecoration: "none",
                   color: "#F7f9fb",
-                  fontSize: "1.2em",
+                  fontSize: "1.3em",
                   borderLeft: "white 1px solid",
                   paddingLeft: "1em",
                   textTransform: "none",
+                  fontFamily: "yuji syuku",
+                  fontWeight: "bold",
                 }}
               >
                 Travel

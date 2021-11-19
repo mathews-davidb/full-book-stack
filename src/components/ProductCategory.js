@@ -13,6 +13,11 @@ import CardMedia from "@mui/material/CardMedia";
 import { useEffect, useState } from "react";
 import baseUrl from "../api";
 import { Link } from "react-router-dom";
+import img from "../components/media/library3.jpeg";
+
+function ccyFormat(num) {
+  return `${Number(num).toFixed(2)}`;
+}
 
 const useStyles = makeStyles({
   card: {
@@ -58,11 +63,26 @@ const ProductCategory = (props) => {
   return (
     <div
       style={{
-        backgroundImage: `url("images/library3.jpeg")`,
+        backgroundImage: `url(${img})`,
         backgroundRepeat: "repeat",
+        minHeight: "84vh",
+        height: "100%",
+        zIndex: "-2",
+        marginTop: "-3em",
       }}
     >
-      <h1 style={{ textAlign: "center" }}>{categoryName}</h1>
+      <br></br>
+      <h1
+        style={{
+          textAlign: "center",
+          fontFamily: "satisfy",
+          fontSize: "3em",
+          fontWeight: "700",
+          marginTop: "1em",
+        }}
+      >
+        {categoryName}
+      </h1>
       <Container>
         <Grid container spacing={3} alignItems="center">
           {books.map((book) => (
@@ -99,7 +119,7 @@ const ProductCategory = (props) => {
                     padding=".5em"
                     color="#31708e"
                   >
-                    ${book.price}
+                    ${ccyFormat(book.price)}
                   </Typography>
                 </Card>
               </Link>

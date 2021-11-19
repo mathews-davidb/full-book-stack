@@ -115,14 +115,7 @@ const ProductPage = (props) => {
 
   return (
     <div>
-      <div
-        style={{
-          marginTop: "2em",
-          marginRight: "4rem",
-          display: "grid",
-          gridTemplateColumns: "50% 50%",
-        }}
-      >
+      <div>
         <div style={{ marginRight: "auto", marginLeft: "auto" }}>
           <img
             style={{ height: "400px" }}
@@ -140,24 +133,36 @@ const ProductPage = (props) => {
                 borderRadius: "10px",
                 backgroundColor: "#e0e0eb",
                 display: "flex",
-                flexDirection: "row",
                 padding: "0.5em",
+                minHeight: "1.5em",
+                alignContent: "center",
+                flexWrap: "wrap",
               }}
             >
-              <h4 style={{ marginLeft: "0.5em" }}>Admin Controls:</h4>
+              <h4
+                style={{
+                  marginLeft: "0.5em",
+                  marginTop: "0.3em",
+                }}
+              >
+                Admin Controls:
+              </h4>
               <Button
                 variant="outlined"
                 size="small"
+                color="error"
                 onClick={deleteProduct}
                 style={{
                   marginRight: "0.5em",
                   marginLeft: "0.5em",
-                  maxHeight: "3em",
+                  maxHeight: "2em",
+                  marginTop: "0.3em",
+                  // color: "red",
+                  // border: "1px solid red",
                 }}
               >
                 Delete Product
               </Button>
-              <br></br>
               <UpdateProductForm
                 token={token}
                 book={book}
@@ -204,15 +209,33 @@ const ProductPage = (props) => {
               </select>{" "}
               <br></br>
               <br></br>
-              <button
+              <Button
+                style={{
+                  marginTop: "1em",
+                  height: "56px",
+                  justifyContent: "center",
+                  backgroundColor: "#7395ae",
+                  marginBottom: "2rem",
+                }}
                 onClick={() => {
                   toast.success(`You have added ${book.name} to your cart!`, {
                     transition: Slide,
                   });
                 }}
+                type="submit"
+                variant="contained"
               >
                 Add to Cart
-              </button>
+              </Button>
+              {/* <button
+                onClick={() => {
+                  toast.success(`You have added ${book.name} to your cart!`, {
+                    transition: Slide,
+                  });
+                }}
+              > */}
+              {/* Add to Cart
+              </button> */}
             </form>
           </div>
         </div>

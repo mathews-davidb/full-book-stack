@@ -79,7 +79,7 @@ const Admin = (props) => {
   }, []);
 
   return (
-    <>
+    <div style={{ backgroundColor: "white" }}>
       <h1
         style={{
           textAlign: "center",
@@ -89,158 +89,149 @@ const Admin = (props) => {
       >
         Admin Dashboard
       </h1>
-      <div>
-        <h3 style={{ marginLeft: "1rem", marginBottom: "0rem" }}>
-          Add New Product:
-        </h3>
-        <form onSubmit={addProduct}>
-          <TextField
-            style={{ margin: "1rem" }}
-            id="add-product-input"
-            label="Name"
-            value={name}
-            variant="outlined"
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <TextField
-            style={{ margin: "1rem" }}
-            id="add-product-input"
-            label="Author"
-            value={author}
-            variant="outlined"
-            onChange={(e) => setAuthor(e.target.value)}
-            required
-          />
-          <TextField
-            style={{ margin: "1rem" }}
-            id="add-product-input"
-            label="Description"
-            value={description}
-            variant="outlined"
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-
-          <TextField
-            style={{ margin: "1rem" }}
-            id="add-product-input"
-            label="Price"
-            value={price}
-            variant="outlined"
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-          <TextField
-            style={{ margin: "1rem" }}
-            id="add-product-input"
-            label="Stock"
-            value={quantity}
-            variant="outlined"
-            onChange={(e) => setQuantity(e.target.value)}
-            required
-          />
-          <FormControl length>
-            <InputLabel id="demo-simple-select-label">Category</InputLabel>
-            <Select
-              style={{ margin: "1rem", minWidth: "120px" }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select-helper"
-              value={category}
-              label="Category"
-              onChange={(e) => setCategory(e.target.value)}
+      <div style={{ width: "80%", marginLeft: "2rem" }}>
+        <div>
+          <h3 style={{ marginLeft: "1rem", marginBottom: "0rem" }}>
+            Add New Product:
+          </h3>
+          <form onSubmit={addProduct} style={{ zIndex: -2 }}>
+            <TextField
+              style={{ margin: "1rem" }}
+              id="add-product-input"
+              label="Name"
+              value={name}
+              variant="outlined"
+              onChange={(e) => setName(e.target.value)}
               required
+            />
+            <TextField
+              style={{ margin: "1rem" }}
+              id="add-product-input"
+              label="Author"
+              value={author}
+              variant="outlined"
+              onChange={(e) => setAuthor(e.target.value)}
+              required
+            />
+            <TextField
+              style={{ margin: "1rem" }}
+              id="add-product-input"
+              label="Description"
+              value={description}
+              variant="outlined"
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+
+            <TextField
+              style={{ margin: "1rem" }}
+              id="add-product-input"
+              label="Price"
+              value={price}
+              variant="outlined"
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+            <TextField
+              style={{ margin: "1rem" }}
+              id="add-product-input"
+              label="Stock"
+              value={quantity}
+              variant="outlined"
+              onChange={(e) => setQuantity(e.target.value)}
+              required
+            />
+            <FormControl length>
+              <InputLabel id="demo-simple-select-label">Category</InputLabel>
+              <Select
+                style={{ margin: "1rem", minWidth: "120px" }}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select-helper"
+                value={category}
+                label="Category"
+                onChange={(e) => setCategory(e.target.value)}
+                required
+              >
+                {props.categories.map((category) => {
+                  return (
+                    <MenuItem value={category.name}>{category.name}</MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <TextField
+              style={{ margin: "1rem" }}
+              id="add-product-input"
+              label="Add Product Image"
+              InputLabelProps={{ shrink: true }}
+              type="file"
+              variant="outlined"
+              onChange={(e) => setImage(e.target.files[0])}
+              required
+            />
+            <Button
+              style={{
+                margin: "1rem",
+                height: "56px",
+                backgroundColor: "#7395ae",
+              }}
+              type="submit"
+              variant="contained"
             >
-              {props.categories.map((category) => {
-                return (
-                  <MenuItem value={category.name}>{category.name}</MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-          <TextField
-            style={{ margin: "1rem" }}
-            id="add-product-input"
-            label="Add Product Image"
-            InputLabelProps={{ shrink: true }}
-            type="file"
-            variant="outlined"
-            onChange={(e) => setImage(e.target.files[0])}
-            required
-          />
-          <Button
-            style={{ margin: "1rem", height: "56px" }}
-            type="submit"
-            variant="contained"
+              Add Product!
+            </Button>
+          </form>
+          <p style={{ color: "red" }}>{errorMessage}</p>
+        </div>
+        <div>
+          <h3
+            style={{
+              marginLeft: "1rem",
+              marginBottom: "0rem",
+              marginBottom: "1rem",
+            }}
           >
-            Add Product!
-          </Button>
-        </form>
-        <p style={{ color: "red" }}>{errorMessage}</p>
-      </div>
-      <div>
-        <h3
-          style={{
-            marginLeft: "1rem",
-            marginBottom: "0rem",
-            marginBottom: "1rem",
-          }}
-        >
-          Users List:
-        </h3>
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 650 }}
-            aria-label="simple table"
-            size={"medium"}
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="left">ID No.</TableCell>
-                <TableCell align="left">Email</TableCell>
-                <TableCell align="center">Admin?</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user) => (
-                <TableRow
-                  key={user.email}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {user.name}
-                  </TableCell>
-                  <TableCell align="left">{user.id}</TableCell>
-                  <TableCell align="left">{user.email}</TableCell>
-                  <TableCell align="center">
-                    {user.is_admin ? "Yes" : "No"}
-                  </TableCell>
+            Users List:
+          </h3>
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 650 }}
+              aria-label="simple table"
+              size={"medium"}
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Name</TableCell>
+                  <TableCell align="left">ID No.</TableCell>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="center">Admin?</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  colSpan={3}
-                  //   count={rows.length}
-                  rowsPerPage={10}
-                  //   page={page}
-                  SelectProps={{
-                    inputProps: {
-                      "aria-label": "rows per page",
-                    },
-                    native: true,
-                  }}
-                  //   onPageChange={handleChangePage}
-                  //   ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow
+                    key={user.email}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {user.name}
+                    </TableCell>
+                    <TableCell align="left">{user.id}</TableCell>
+                    <TableCell align="left">{user.email}</TableCell>
+                    <TableCell align="center">
+                      {user.is_admin ? "Yes" : "No"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow></TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

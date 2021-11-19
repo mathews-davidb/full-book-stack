@@ -63,15 +63,13 @@ const UpdateProductForm = (props) => {
         <Button
           size="small"
           variant="outlined"
+          style={{ height: "2em", marginTop: "0.2em" }}
           onClick={() => {
             if (showForm) {
               setShowForm(false);
             } else {
               setShowForm(true);
             }
-          }}
-          style={{
-            maxHeight: "3em",
           }}
         >
           Update Product
@@ -80,7 +78,10 @@ const UpdateProductForm = (props) => {
       {showForm && (
         <span>
           <br></br>
-          <form onSubmit={patchProduct}>
+          <form
+            onSubmit={patchProduct}
+            style={{ display: "flex", flexWrap: "wrap" }}
+          >
             <TextField
               style={{ margin: "1rem" }}
               id="add-product-input"
