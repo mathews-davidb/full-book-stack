@@ -21,9 +21,11 @@ const Home = (props) => {
             color: "#faebd7",
             textDecoration: "None",
             fontStyle: "italic",
+            fontSize: "1.5em",
           }}
         >
-          Where Endless Possibilities Await
+          “You can never get a cup of tea large enough or a book long enough to
+          suit me.” <br></br>– C.S. Lewis
         </h2>
 
         <button

@@ -235,9 +235,6 @@ const Navbar = (props) => {
                     style={{
                       fontFamily: "yuji syuku",
                       fontWeight: "bold",
-                      display: "grid",
-                      gridTemplateColumns: "20% 20% 20% 20% 20%",
-                      gridTemplateRows: "14% 14% 14% 14% 14% 14% 14%",
                     }}
                   >
                     <a

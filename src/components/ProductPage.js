@@ -114,130 +114,137 @@ const ProductPage = (props) => {
   //======================================================
 
   return (
-    <div>
-      <div>
-        <div style={{ marginRight: "auto", marginLeft: "auto" }}>
-          <img
-            style={{ height: "400px" }}
-            src={
-              book.image && book.image.includes("http")
-                ? book.image
-                : `/images/${book.image}`
-            }
-          ></img>
-        </div>
-        <div style={{ marginRight: "auto", marginLeft: "0em" }}>
-          {props.isAdmin && (
-            <div
-              style={{
-                borderRadius: "10px",
-                backgroundColor: "#e0e0eb",
-                display: "flex",
-                padding: "0.5em",
-                minHeight: "1.5em",
-                alignContent: "center",
-                flexWrap: "wrap",
-              }}
-            >
-              <h4
-                style={{
-                  marginLeft: "0.5em",
-                  marginTop: "0.3em",
-                }}
-              >
-                Admin Controls:
-              </h4>
-              <Button
-                variant="outlined"
-                size="small"
-                color="error"
-                onClick={deleteProduct}
-                style={{
-                  marginRight: "0.5em",
-                  marginLeft: "0.5em",
-                  maxHeight: "2em",
-                  marginTop: "0.3em",
-                  // color: "red",
-                  // border: "1px solid red",
-                }}
-              >
-                Delete Product
-              </Button>
-              <UpdateProductForm
-                token={token}
-                book={book}
-                categories={categories}
-                setCategories={setCategories}
-                getBookInfo={getBookInfo}
-              ></UpdateProductForm>
-            </div>
-          )}
-          <h2>{book.name}</h2>
-          <div>by {book.author}</div>
-          <br></br>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "50% 50%",
+        marginTop: "3em",
+        marginRight: "4em",
+        marginLeft: "2em",
+      }}
+    >
+      <div style={{ marginRight: "auto", marginLeft: "auto" }}>
+        <img
+          style={{ height: "400px" }}
+          src={
+            book.image && book.image.includes("http")
+              ? book.image
+              : `/images/${book.image}`
+          }
+        ></img>
+      </div>
+      <div style={{ marginRight: "auto", marginLeft: "0em" }}>
+        {props.isAdmin && (
           <div
             style={{
-              borderBottom: "2px solid black",
-              paddingBottom: "1em",
+              borderRadius: "10px",
+              backgroundColor: "#e0e0eb",
+              display: "flex",
+              padding: "0.5em",
+              minHeight: "1.5em",
+              alignContent: "center",
+              flexWrap: "wrap",
+              justifyContent: "space-around",
             }}
           >
-            {book.description}
+            <h4
+              style={{
+                marginLeft: "0.5em",
+                marginTop: "0.3em",
+              }}
+            >
+              Admin Controls:
+            </h4>
+            <Button
+              variant="outlined"
+              size="small"
+              color="error"
+              onClick={deleteProduct}
+              style={{
+                marginRight: "0.5em",
+                marginLeft: "0.5em",
+                maxHeight: "2em",
+                marginTop: "0.3em",
+                // color: "red",
+                // border: "1px solid red",
+              }}
+            >
+              Delete Product
+            </Button>
+            <UpdateProductForm
+              token={token}
+              book={book}
+              categories={categories}
+              setCategories={setCategories}
+              getBookInfo={getBookInfo}
+            ></UpdateProductForm>
           </div>
-          <div style={{ marginTop: "2rem" }}>
-            {book.stock && (
-              <div>
-                <ThumbUp style={{ color: "green", marginRight: "1rem" }} />
-                <span> In Stock - {book.stock} available</span>
-              </div>
-            )}
-            {!book.stock && <div style={{ color: "red" }}> Out of Stock</div>}
-            <div style={{ marginTop: "1em" }}>${ccyFormat(book.price)}</div>
-            <form onSubmit={addItemToCart} style={{ marginTop: "1em" }}>
-              <label>QTY - </label>
-              <select
-                required
-                defaultValue={1}
-                onChange={(e) => {
-                  setQuantity(e.target.value);
-                }}
-              >
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>{" "}
-              <br></br>
-              <br></br>
-              <Button
-                style={{
-                  marginTop: "1em",
-                  height: "56px",
-                  justifyContent: "center",
-                  backgroundColor: "#7395ae",
-                  marginBottom: "2rem",
-                }}
-                onClick={() => {
-                  toast.success(`You have added ${book.name} to your cart!`, {
-                    transition: Slide,
-                  });
-                }}
-                type="submit"
-                variant="contained"
-              >
-                Add to Cart
-              </Button>
-              {/* <button
+        )}
+        <h2>{book.name}</h2>
+        <div>by {book.author}</div>
+        <br></br>
+        <div
+          style={{
+            borderBottom: "2px solid black",
+            paddingBottom: "1em",
+          }}
+        >
+          {book.description}
+        </div>
+        <div style={{ marginTop: "2rem" }}>
+          {book.stock && (
+            <div>
+              <ThumbUp style={{ color: "green", marginRight: "1rem" }} />
+              <span> In Stock - {book.stock} available</span>
+            </div>
+          )}
+          {!book.stock && <div style={{ color: "red" }}> Out of Stock</div>}
+          <div style={{ marginTop: "1em" }}>${ccyFormat(book.price)}</div>
+          <form onSubmit={addItemToCart} style={{ marginTop: "1em" }}>
+            <label>QTY - </label>
+            <select
+              required
+              defaultValue={1}
+              onChange={(e) => {
+                setQuantity(e.target.value);
+              }}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>{" "}
+            <br></br>
+            <br></br>
+            <Button
+              style={{
+                marginTop: "1em",
+                height: "56px",
+                justifyContent: "center",
+                backgroundColor: "#7395ae",
+                marginBottom: "2rem",
+              }}
+              onClick={() => {
+                toast.success(`You have added ${book.name} to your cart!`, {
+                  transition: Slide,
+                });
+              }}
+              type="submit"
+              variant="contained"
+            >
+              Add to Cart
+            </Button>
+            {/* <button
                 onClick={() => {
                   toast.success(`You have added ${book.name} to your cart!`, {
                     transition: Slide,
                   });
                 }}
               > */}
-              {/* Add to Cart
+            {/* Add to Cart
               </button> */}
-            </form>
-          </div>
+          </form>
         </div>
       </div>
     </div>
