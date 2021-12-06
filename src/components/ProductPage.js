@@ -46,6 +46,7 @@ const ProductPage = (props) => {
   //======================================================
 
   const addItemToCart = async (e) => {
+    console.log("working");
     e.preventDefault();
     const product_id = window.location.pathname.substring(10);
 
@@ -235,7 +236,6 @@ const ProductPage = (props) => {
             >
               Add to Cart
             </Button>
-          
           </form>
         </div>
       </div>

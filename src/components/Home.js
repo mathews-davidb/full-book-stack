@@ -1,14 +1,16 @@
 import { Link, useHistory } from "react-router-dom";
 import "./Components.css";
 import video from "./media/hm.mp4";
+import image from "./media/altbackground2.png";
 
 const Home = (props) => {
   const history = useHistory();
   return (
     <div className="video-container">
-      <video loop autoPlay muted>
+      {/* <video loop autoPlay muted>
         <source src={video} type="video/mp4" />
-      </video>
+      </video> */}
+      <img src={image} style={{ height: "auto", width: "100%" }} />
       <div className="text" style={{ marginTop: "-6em" }}>
         <img
           style={{ height: "200px", marginTop: "-4.3rem" }}
