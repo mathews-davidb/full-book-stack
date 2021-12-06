@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
+import { useHistory } from "react-router";
 import baseUrl from "../api";
 import img from "../components/media/library3.jpeg";
 
@@ -70,6 +71,8 @@ function CheckoutForm(props) {
   const [shippingState, setshippingState] = useState("");
   const [shippingCountry, setshippingCountry] = useState("");
 
+  const history = useHistory();
+
   const completeOrder = async () => {
     console.log(props.cart.id);
     const response = await fetch(`${baseUrl}/orders/${props.cart.id}`, {
@@ -85,6 +88,7 @@ function CheckoutForm(props) {
     });
     const info = await response.json();
     console.log("working");
+    history.push("/account");
   };
 
   const sameAsShipping = () => {
