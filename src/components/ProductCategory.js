@@ -97,9 +97,11 @@ const ProductCategory = (props) => {
                       component="img"
                       height="340em"
                       image={
-                        book.image.includes("http")
-                          ? book.image
-                          : `/images/${book.image}`
+                        book.image
+                          ? book.image.includes("http")
+                            ? book.image
+                            : `/images/${book.image}`
+                          : null
                       }
                       alt={book.name}
                     />

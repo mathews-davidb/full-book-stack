@@ -235,15 +235,7 @@ const ProductPage = (props) => {
             >
               Add to Cart
             </Button>
-            {/* <button
-                onClick={() => {
-                  toast.success(`You have added ${book.name} to your cart!`, {
-                    transition: Slide,
-                  });
-                }}
-              > */}
-            {/* Add to Cart
-              </button> */}
+          
           </form>
         </div>
       </div>

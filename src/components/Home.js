@@ -9,7 +9,7 @@ const Home = (props) => {
       <video loop autoPlay muted>
         <source src={video} type="video/mp4" />
       </video>
-      <div className="text">
+      <div className="text" style={{ marginTop: "-6em" }}>
         <img
           style={{ height: "200px", marginTop: "-4.3rem" }}
           src={"/images/lgw3.png"}
